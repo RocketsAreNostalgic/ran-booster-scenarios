@@ -30,9 +30,15 @@ to propose the next fixture release; the proposal itself does not certify routes
 or bump versions. Release Please's generated PR requires its own exact-head
 qualification and owner-approved merge.
 
-For the first release, review and merge the implementation PR, let main Quality
-and Release Please open the version proposal, then review that proposal. No
-release is published merely by creating this repository or implementation PR.
+The first immutable release, [v0.1.1](https://github.com/RocketsAreNostalgic/ran-booster-scenarios/releases/tag/v0.1.1),
+was published from release PR3. The read-only **Release Liveness** workflow now
+runs hourly and on manual dispatch, using the starter's pinned shared observer.
+It matches the manifest version to its merged release proposal and reports
+published, pending or explicitly reconciled state; an unresolved candidate
+beyond the default 60-minute grace period fails after publisher activity stops.
+Changes to the caller also run the observer on pull requests. It observes the
+default branch's release state and never publishes, repairs or changes labels.
+Profile B remains responsible for exact asset promotion and immutable readback.
 
 Owner-managed prerequisites are Actions availability, reusable-workflow/Action
 policy, permission for GITHUB_TOKEN to create PRs, appropriate required checks and
