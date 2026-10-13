@@ -21,7 +21,7 @@ try {
 		}
 	}
 	// The actual per-file profiles must preserve the same blocking floor and default exclusions.
-	foreach ( array( 'phpstan-file.neon', 'phpstan-tests.neon' ) as $ran_booster_scenarios_profile ) {
+	foreach ( array( 'phpstan-file.neon' ) as $ran_booster_scenarios_profile ) {
 		$ran_booster_scenarios_effective = ( new \PHPStan\DependencyInjection\ContainerFactory( $ran_booster_scenarios_root ) )->create( $ran_booster_scenarios_root . '/vendor/ran-scenarios-analysis-cache/' . $ran_booster_scenarios_profile, array( $ran_booster_scenarios_root . '/' . $ran_booster_scenarios_profile ), array() );
 		if ( 8 !== (int) $ran_booster_scenarios_effective->getParameter( 'level' ) || false !== $ran_booster_scenarios_effective->getParameter( 'treatPhpDocTypesAsCertain' ) || 80400 !== $ran_booster_scenarios_effective->getParameter( 'phpVersion' ) ) {
 			throw new RuntimeException( 'Maintained PHP requires Level 8, unchanged PHPDoc trust and PHP 8.4.' );

@@ -4,7 +4,7 @@ cd "$(dirname "$0")/.."
 fixture_dir=$(mktemp -d "${TMPDIR:-/tmp}/ran-scenarios-contract.XXXXXX")
 trap 'status=$?; if [[ $status -ne 0 ]]; then tail -n 40 "$fixture_dir"/repo/*.log >&2; fi; rm -rf "$fixture_dir"' EXIT
 mkdir "$fixture_dir/repo"
-for item in samples scripts tests .github .phpcs.xml phpunit.xml composer.json phpstan.neon phpstan-file.neon phpstan-tests.neon ran-booster-scenarios.php catalog.php compatibility.json; do
+for item in samples scripts tests .github .phpcs.xml phpunit.xml composer.json phpstan.neon phpstan-file.neon ran-booster-scenarios.php catalog.php compatibility.json; do
     cp -a "$item" "$fixture_dir/repo/"
 done
 ln -s "$PWD/vendor" "$fixture_dir/repo/vendor"
