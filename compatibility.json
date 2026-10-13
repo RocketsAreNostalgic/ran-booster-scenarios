@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "fixture_version": "0.1.0",
+  "core_version": "1.0.0-beta.35",
+  "core_commit": "5743df3af0a33c35839aec0bb369a72d084b3d7a",
+  "core_zip_sha256": "0200608f0c6ef535b9977e32de9666e32c72a3135f1632f49a901df5c56e9c52",
+  "provider_api": 15,
+  "addon_api": 17,
+  "admin_interaction_api": 3
+}
