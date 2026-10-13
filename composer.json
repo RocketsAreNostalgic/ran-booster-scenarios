@@ -1,0 +1,65 @@
+{
+    "license": "GPL-2.0-only",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "platform": {
+            "php": "8.4.0"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "name": "ran/booster-scenarios",
+    "description": "Version-locked disposable WordPress scenario fixture for RAN Booster.",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=8.4 <8.6"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/RocketsAreNostalgic/ran-coding-standards.git"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "ran/coding-standards": "1.0.3",
+        "phpcompatibility/php-compatibility": "10.0.0-alpha2",
+        "phpcompatibility/phpcompatibility-paragonie": "2.0.0-alpha2",
+        "phpcompatibility/phpcompatibility-wp": "3.0.0-alpha2",
+        "phpstan/phpstan": "^2.2.16",
+        "szepeviktor/phpstan-wordpress": "^2.0.4",
+        "php-stubs/wordpress-stubs": "~7.0.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RAN\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@i18n:check",
+            "@lint:syntax",
+            "@standards",
+            "@test",
+            "@analyze"
+        ],
+        "lint:syntax": "bash -o pipefail -c 'find . -path ./vendor -prune -o -path ./node_modules -prune -o -path ./build -prune -o -type f -name \"*.php\" -print0 | xargs -0 -r -n1 php -l'",
+        "standards": "phpcs --standard=.phpcs.xml",
+        "standards:fix": "phpcbf --standard=.phpcs.xml",
+        "test": [
+            "@test:unit",
+            "@test:quality-contract",
+            "@test:analysis-contract",
+            "@test:release"
+        ],
+        "test:unit": "phpunit --configuration phpunit.xml --fail-on-phpunit-deprecation",
+        "test:quality-contract": "bash tests/php-quality-contract.sh",
+        "test:analysis-contract": "bash tests/php-analysis-contract.sh",
+        "test:release": "python3 -m unittest discover -s tests -p 'test_*.py'",
+        "analyze": "@php scripts/analyze.php",
+        "i18n": "bash scripts/make-pot.sh",
+        "i18n:check": "bash scripts/make-pot.sh --check"
+    }
+}

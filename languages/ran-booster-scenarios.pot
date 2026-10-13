@@ -1,0 +1,302 @@
+# Copyright (C) 2026 Rockets Are Nostalgic
+# This file is distributed under the GPL-2.0-only.
+msgid ""
+msgstr ""
+"Project-Id-Version: RAN Booster Scenarios\n"
+"Report-Msgid-Bugs-To: https://github.com/RocketsAreNostalgic/ran-booster-scenarios/issues\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-13T00:00:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: ran-booster-scenarios\n"
+
+#. Plugin Name of the plugin
+#: ran-booster-scenarios.php
+msgid "RAN Booster Scenarios (disposable sites only)"
+msgstr ""
+
+#. Description of the plugin
+#: ran-booster-scenarios.php
+msgid "Version-locked, opt-in controlled release scenarios for Booster acceptance."
+msgstr ""
+
+#: catalog.php:17
+msgid "Immutable release"
+msgstr ""
+
+#: catalog.php:20
+msgid "A valid immutable 2.0.0 release is available; normal Core eligibility and installation checks still apply."
+msgstr ""
+
+#: catalog.php:23
+msgid "Mutable release"
+msgstr ""
+
+#: catalog.php:26
+msgid "Release evidence is mutable; record the supported Core version’s actual behavior. Planned #85 immutability notices may not exist yet."
+msgstr ""
+
+#: catalog.php:29
+msgid "No releases"
+msgstr ""
+
+#: catalog.php:32
+msgid "No current release is available. Existing history remains visible without inventing a new offer."
+msgstr ""
+
+#: catalog.php:35
+msgid "Malformed release response"
+msgstr ""
+
+#: catalog.php:38
+msgid "Invalid JSON must produce an unavailable/error result, never a successful release."
+msgstr ""
+
+#: catalog.php:41
+msgid "Provider unavailable (503)"
+msgstr ""
+
+#: catalog.php:44
+msgid "503 must report provider unavailability, never deployment success."
+msgstr ""
+
+#: catalog.php:47
+msgid "Provider access denied (403)"
+msgstr ""
+
+#: catalog.php:50
+msgid "403 must report access denial, never authenticate with real credentials."
+msgstr ""
+
+#: catalog.php:53
+msgid "Provider rate limited (429)"
+msgstr ""
+
+#: catalog.php:56
+msgid "429 must report rate limiting without repeated background retry loops."
+msgstr ""
+
+#: catalog.php:59
+msgid "Mutable → immutable (manual advance)"
+msgstr ""
+
+#: catalog.php:62
+msgid "Stage 0 mutable; advance explicitly, refresh normally, then observe immutable evidence in a later request."
+msgstr ""
+
+#: catalog.php:65
+msgid "Immutable → mutable (manual advance)"
+msgstr ""
+
+#: catalog.php:68
+msgid "Stage 0 immutable; advance and refresh to verify current mutable evidence replaces stale immutable evidence. Planned #85 notices may not exist yet."
+msgstr ""
+
+#: catalog.php:71
+msgid "Immutable offer → no release (manual advance)"
+msgstr ""
+
+#: catalog.php:74
+msgid "Stage 0 valid offer; advance explicitly, refresh normally, then verify the offer disappears while earlier history remains."
+msgstr ""
+
+#: catalog.php:87
+msgid "Fixture plugin management"
+msgstr ""
+
+#: catalog.php:88
+msgid "Fixture theme management"
+msgstr ""
+
+#: catalog.php:89
+msgid "Activity history"
+msgstr ""
+
+#: catalog.php:90
+msgid "Published release guidance"
+msgstr ""
+
+#: catalog.php:91
+msgid "Booster overview"
+msgstr ""
+
+#: catalog.php:92
+msgid "GitHub repositories"
+msgstr ""
+
+#: catalog.php:93
+msgid "Add plugin repository"
+msgstr ""
+
+#: catalog.php:94
+msgid "Add theme repository"
+msgstr ""
+
+#: catalog.php:95
+msgid "Booster troubleshooting"
+msgstr ""
+
+#: catalog.php:96
+msgid "Installed plugins"
+msgstr ""
+
+#: catalog.php:97
+msgid "Installed themes"
+msgstr ""
+
+#: catalog.php:98
+msgid "WordPress updates"
+msgstr ""
+
+#: ran-booster-scenarios.php:75
+msgid "Set RAN_BOOSTER_SCENARIOS_DISPOSABLE to true on a disposable site."
+msgstr ""
+
+#: ran-booster-scenarios.php:78
+msgid "Only local and development WordPress environments are supported."
+msgstr ""
+
+#: ran-booster-scenarios.php:82
+msgid "The fixture compatibility manifest is missing, invalid, or does not match the plugin version."
+msgstr ""
+
+#: ran-booster-scenarios.php:90
+msgid "Active Core APIs do not match the fixture compatibility manifest."
+msgstr ""
+
+#. translators: %s: Required Booster Core version.
+#: ran-booster-scenarios.php:96
+#, php-format
+msgid "Install exactly Core %s in wp-content/plugins/ran-booster."
+msgstr ""
+
+#. translators: %s: Required Booster Core version.
+#: ran-booster-scenarios.php:103
+#, php-format
+msgid "Install the exact published Core %s ZIP, including its release marker."
+msgstr ""
+
+#: ran-booster-scenarios.php:162
+msgid "Unknown fixture archive."
+msgstr ""
+
+#: ran-booster-scenarios.php:166
+msgid "Bundled archive missing."
+msgstr ""
+
+#: ran-booster-scenarios.php:171
+msgid "Bundled archive unreadable."
+msgstr ""
+
+#: ran-booster-scenarios.php:187
+msgid "Archive streaming requires a regular pre-created file directly in the WordPress temp directory."
+msgstr ""
+
+#: ran-booster-scenarios.php:232
+msgid "Synthetic target blocked: fixture disabled, incompatible or unsupported request."
+msgstr ""
+
+#: ran-booster-scenarios.php:365
+msgid "Build or reinstall the fixture with its bundled archives before testing release offers."
+msgstr ""
+
+#: ran-booster-scenarios.php:399
+msgid "Administrator access required."
+msgstr ""
+
+#: ran-booster-scenarios.php:402
+msgid "POST required."
+msgstr ""
+
+#: ran-booster-scenarios.php:454
+#: ran-booster-scenarios.php:532
+msgid "Booster scenarios"
+msgstr ""
+
+#. translators: 1: Fixture plugin version, 2: Required Booster Core version.
+#: ran-booster-scenarios.php:457
+#, php-format
+msgid "Fixture %1$s · Core %2$s"
+msgstr ""
+
+#: ran-booster-scenarios.php:459
+msgid "Compatible disposable environment."
+msgstr ""
+
+#: ran-booster-scenarios.php:460
+msgid "Selection persists across cron and browser requests."
+msgstr ""
+
+#: ran-booster-scenarios.php:463
+msgid "Expected:"
+msgstr ""
+
+#: ran-booster-scenarios.php:467
+msgid "Scenario"
+msgstr ""
+
+#: ran-booster-scenarios.php:471
+msgid "Target"
+msgstr ""
+
+#: ran-booster-scenarios.php:473
+#: ran-booster-scenarios.php:498
+msgid "Both targets"
+msgstr ""
+
+#: ran-booster-scenarios.php:474
+#: ran-booster-scenarios.php:499
+msgid "Plugin"
+msgstr ""
+
+#: ran-booster-scenarios.php:475
+#: ran-booster-scenarios.php:500
+msgid "Theme"
+msgstr ""
+
+#: ran-booster-scenarios.php:479
+msgid "Select / restart"
+msgstr ""
+
+#: ran-booster-scenarios.php:479
+msgid "Advance to stage 1"
+msgstr ""
+
+#: ran-booster-scenarios.php:479
+msgid "Disable / reset fixture selection"
+msgstr ""
+
+#: ran-booster-scenarios.php:480
+msgid "Use only ran-booster-scenarios/scenario-plugin and ran-booster-scenarios/scenario-theme. No real credentials needed. Install the documented local stub targets first. Only the bundled harmless plugin/theme archives can be installed through normal WordPress controls. These prove synthetic installation, not real GitHub publishing."
+msgstr ""
+
+#: ran-booster-scenarios.php:481
+msgid "After changing stage, use Booster’s normal refresh action or cron; existing caches and history are intentionally preserved. Reset removes only fixture selection, not Booster records or history. Logging stays under Booster’s normal settings."
+msgstr ""
+
+#: ran-booster-scenarios.php:481
+msgid "Test routes"
+msgstr ""
+
+#. translators: 1: Scenario label, 2: Manual stage number, 3: Target label.
+#: ran-booster-scenarios.php:503
+#, php-format
+msgid "Selected: %1$s; stage: %2$d; target: %3$s."
+msgstr ""
+
+#. translators: 1: Scenario label, 2: Manual stage number, 3: Target label.
+#: ran-booster-scenarios.php:503
+msgid "disabled"
+msgstr ""
+
+#: ran-booster-scenarios.php:515
+msgid "Booster test fixture installed."
+msgstr ""
+
+#: ran-booster-scenarios.php:515
+msgid "Scenario controls"
+msgstr ""

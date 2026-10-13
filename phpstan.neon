@@ -1,0 +1,13 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: 8
+    phpVersion: 80400
+    treatPhpDocTypesAsCertain: false
+    paths:
+        - ran-booster-scenarios.php
+        - catalog.php
+        - samples
+        - scripts
+        - tests

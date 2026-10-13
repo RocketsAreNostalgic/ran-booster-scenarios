@@ -1,0 +1,29 @@
+{
+	"type": "module",
+	"engines": {
+		"node": ">=24.21.0 <25",
+		"pnpm": ">=11"
+	},
+	"volta": {
+		"node": "24.21.0"
+	},
+	"packageManager": "pnpm@11.13.1",
+	"prettier": "@rocketsarenostalgic/quality-config/prettier",
+	"name": "ran-booster-scenarios",
+	"version": "0.1.0",
+	"private": true,
+	"license": "GPL-2.0-only",
+	"scripts": {
+		"lint:css": "stylelint 'samples/**/*.css'",
+		"format:check": "prettier --check package.json .stylelintrc.json",
+		"check": "pnpm lint:css && pnpm format:check"
+	},
+	"devDependencies": {
+		"@rocketsarenostalgic/quality-config": "github:RocketsAreNostalgic/ran-quality-config#7faebe578c509e9265769314fd41bb1485b868b0",
+		"@wordpress/prettier-config": "4.51.0",
+		"@wordpress/stylelint-config": "26.1.0",
+		"prettier": "3.9.5",
+		"stylelint": "17.14.1",
+		"stylelint-scss": "7.2.0"
+	}
+}

@@ -1,0 +1,22 @@
+name: Release Please
+
+on:
+  workflow_run:
+    workflows: [Quality]
+    types: [completed]
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  release:
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      actions: write
+    uses: RocketsAreNostalgic/.github/.github/workflows/release-profile-b.yml@593768db30a0101e940e85b9a084b2c773322785
+    with:
+      expected-workflow-path: .github/workflows/quality.yml
+      release-pr-head: release-please--branches--main--components--ran-booster-scenarios
+      artifact-prefix: ran-booster-scenarios-runtime

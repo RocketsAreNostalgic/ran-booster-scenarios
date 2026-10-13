@@ -1,0 +1,129 @@
+name: Quality
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  project:
+    name: Source and installed proof / PHP ${{ matrix.php }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.4', '8.5']
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: wordpress_test
+          MYSQL_ROOT_PASSWORD: root
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping --host=127.0.0.1 --user=root --password=root"
+          --health-interval=10s --health-timeout=5s --health-retries=10
+    env:
+      RAN_BOOSTER_CORE_DIR: ${{ github.workspace }}/build/core/ran-booster
+      RAN_EXPECTED_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out exact source revision
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+      - name: Verify source identity
+        run: test "$(git rev-parse HEAD)" = "$RAN_EXPECTED_SHA"
+      - name: Set up PHP and WP-CLI
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mysqli, zip
+          tools: composer:v2, wp-cli:2.12.0
+          coverage: none
+      - name: Set up pnpm
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
+      - name: Set up Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version-file: package.json
+          cache: pnpm
+      - name: Validate native toolchain
+        env:
+          EXPECTED_PHP: ${{ matrix.php }}
+        run: |
+          test "$(php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION;')" = "$EXPECTED_PHP"
+          test "$(pnpm --version)" = "$(jq -r '.packageManager | ltrimstr("pnpm@") | split("+")[0]' package.json)"
+      - name: Install locked development dependencies
+        run: |
+          composer validate --strict --no-check-all --no-check-publish
+          composer install --no-interaction --prefer-dist --no-progress
+          composer check-platform-reqs
+          pnpm install --frozen-lockfile
+      - name: Fetch exact released Core host
+        run: |
+          python3 scripts/core_release.py --output-zip build/core.zip
+          mkdir -p build/core
+          unzip -q build/core.zip -d build/core
+      - name: Build deterministic assets twice
+        run: |
+          python3 scripts/build-release.py --output-dir build/release
+          python3 scripts/build-release.py --output-dir build/release-repeat
+          diff -qr build/release build/release-repeat
+      - name: Canonical source quality and release contracts
+        run: |
+          composer check
+          pnpm check
+          python3 -m unittest discover -s tests -p 'test_release.py'
+          git diff --exit-code
+      - name: Install disposable WordPress floor
+        run: |
+          wp core download --path=build/wordpress --version=7.0
+          test "$(wp core version --path=build/wordpress)" = '7.0'
+          wp config create --path=build/wordpress --dbname=wordpress_test --dbuser=root --dbpass=root --dbhost=127.0.0.1:3306
+          wp config set WP_ENVIRONMENT_TYPE local --path=build/wordpress
+          wp config set RAN_BOOSTER_SCENARIOS_DISPOSABLE true --raw --path=build/wordpress
+          wp core install --path=build/wordpress --url=http://localhost --title='Disposable scenario CI' --admin_user=admin --admin_password=admin --admin_email=admin@example.com --skip-email
+      - name: Install exact tested Core and fixture archives
+        run: |
+          test ! -L build/wordpress
+          test "$(wp option get siteurl --path=build/wordpress)" = 'http://localhost'
+          core_version="$(jq -r '.core_version' compatibility.json)"
+          fixture_version="$(cat version.txt)"
+          wp plugin install "$GITHUB_WORKSPACE/build/core.zip" --path=build/wordpress --activate
+          wp plugin install "$GITHUB_WORKSPACE/build/release/ran-booster-scenarios-${fixture_version}-core-${core_version}.zip" --path=build/wordpress --activate
+          wp plugin is-active ran-booster --path=build/wordpress
+          wp plugin is-active ran-booster-scenarios --path=build/wordpress
+          test "$(wp plugin get ran-booster-scenarios --field=version --path=build/wordpress)" = "$fixture_version"
+          wp eval-file tests/installed-proof.php --path=build/wordpress
+          mkdir build/readback
+          unzip -q "build/release/ran-booster-scenarios-${fixture_version}-core-${core_version}.zip" -d build/readback
+          diff -qr build/readback/ran-booster-scenarios build/wordpress/wp-content/plugins/ran-booster-scenarios
+      - name: Upload exact tested assets
+        if: matrix.php == '8.4'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.0
+        with:
+          name: ran-booster-scenarios-runtime-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/release/*
+          if-no-files-found: error
+          retention-days: 30
+
+  quality:
+    name: quality
+    if: ${{ always() }}
+    needs: [project]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Require source and installed matrix
+        env:
+          PROJECT_RESULT: ${{ needs.project.result }}
+        run: test "$PROJECT_RESULT" = success

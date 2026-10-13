@@ -1,0 +1,13 @@
+/vendor/
+/node_modules/
+/build/
+/archives/
+/.phpunit.cache/
+/.phpcs-cache
+/.dex/
+/composer-solve.json
+/composer-solve.lock
+__pycache__/
+*.pyc
+*.zip
+.DS_Store

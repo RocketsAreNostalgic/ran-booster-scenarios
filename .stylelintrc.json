@@ -1,0 +1,3 @@
+{
+	"extends": ["@rocketsarenostalgic/quality-config/stylelint/wordpress-scss"]
+}
