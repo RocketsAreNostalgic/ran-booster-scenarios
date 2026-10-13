@@ -3,7 +3,7 @@
  * Plugin Name: RAN Booster Scenarios (disposable sites only)
  * Description: Version-locked, opt-in controlled release scenarios for Booster acceptance.
  * x-release-please-start-version
- * Version: 0.1.0
+ * Version: 0.1.1
  * x-release-please-end
  * Requires PHP: 8.4
  * Requires at least: 7.0
