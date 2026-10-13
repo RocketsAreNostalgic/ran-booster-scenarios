@@ -4,6 +4,7 @@ import importlib.util
 import json
 from pathlib import Path
 import shutil
+import subprocess
 import tempfile
 import unittest
 import zipfile
@@ -46,6 +47,28 @@ class ReleaseTest(unittest.TestCase):
         for slug, header in (("scenario-plugin", "scenario-plugin.php"), ("scenario-theme", "style.css")):
             with zipfile.ZipFile(first / f"{slug}-1.0.0.zip") as archive:
                 self.assertIn(b"Version: 1.0.0", archive.read(f"{slug}/{header}"))
+
+    def test_unit_command_prepares_missing_archives_in_a_fresh_source_tree(self):
+        shutil.copy2(ROOT / "composer.json", self.root / "composer.json")
+        shutil.copy2(ROOT / "phpunit.xml", self.root / "phpunit.xml")
+        (self.root / "scripts").mkdir()
+        shutil.copy2(ROOT / "scripts/build-release.py", self.root / "scripts/build-release.py")
+        (self.root / "tests").mkdir()
+        for name in ("bootstrap.php", "ScenarioFixturePluginTest.php"):
+            shutil.copy2(ROOT / "tests" / name, self.root / "tests" / name)
+        shutil.copytree(ROOT / "tests/Support", self.root / "tests/Support")
+        (self.root / "vendor").symlink_to(ROOT / "vendor", target_is_directory=True)
+        self.assertFalse((self.root / "archives").exists())
+        result = subprocess.run(["composer", "run-script", "test:unit", "--no-interaction"], cwd=self.root, text=True, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("OK (", result.stdout)
+        self.assertFalse((self.root / "build").exists(), "Unit checks must not prepare release promotion assets")
+        for slug in builder.SAMPLES:
+            with zipfile.ZipFile(self.root / "archives" / f"{slug}.zip") as archive:
+                self.assertEqual({name: archive.read(name) for name in archive.namelist()}, {
+                    slug + "/" + path.relative_to(self.root / "samples" / slug).as_posix(): path.read_bytes()
+                    for path in (self.root / "samples" / slug).rglob("*") if path.is_file()
+                })
 
     def test_version_drift_fails(self):
         (self.root / "version.txt").write_text("9.0.0\n")

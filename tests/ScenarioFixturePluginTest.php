@@ -76,6 +76,20 @@ final class ScenarioFixturePluginTest extends TestCase {
 	}
 
 	/**
+	 * Keep ZIP runtime admission within both qualified PHP release series.
+	 */
+	public function test_php_support_rejects_versions_outside_the_qualified_series(): void {
+		foreach ( array( 80300, 80399, 80600, 80601, 90000 ) as $unsupported ) {
+			self::assertFalse( ran_booster_scenarios_supports_php( $unsupported ) );
+		}
+		foreach ( array( 80400, 80401, 80499, 80500, 80501, 80599 ) as $supported ) {
+			self::assertTrue( ran_booster_scenarios_supports_php( $supported ) );
+		}
+		$this->enable();
+		self::assertSame( ran_booster_scenarios_supports_php( PHP_VERSION_ID ), '' === ran_booster_scenarios_guard() );
+	}
+
+	/**
 	 * Verify disabled fixture blocks only synthetic targets.
 	 */
 	public function test_disabled_fixture_blocks_only_synthetic_targets(): void {

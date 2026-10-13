@@ -8,7 +8,8 @@ continues to apply. Public WordPress.org support is not offered.
 
 Use PHP8.4 or8.5, Composer2, Node24.21.0 and the exact pnpm version in package.json.
 Install tracked locks with composer install and pnpm install --frozen-lockfile.
-Run composer check and pnpm check. Download the pinned immutable Core with
+Run composer check and pnpm check. The unit-test command generates its inert
+sample archives automatically; no release build is required first. Download the pinned immutable Core with
 python3 scripts/core_release.py --output-zip build/core.zip, extract into build/core,
 and use RAN_BOOSTER_CORE_DIR=$PWD/build/core/ran-booster for host tests.
 Never point tests at a live/shared site. Quality additionally verifies packaged

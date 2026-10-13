@@ -54,7 +54,10 @@
             "@test:analysis-contract",
             "@test:release"
         ],
-        "test:unit": "phpunit --configuration phpunit.xml --fail-on-phpunit-deprecation",
+        "test:unit": [
+            "python3 scripts/build-release.py --samples-only",
+            "phpunit --configuration phpunit.xml --fail-on-phpunit-deprecation"
+        ],
         "test:quality-contract": "bash tests/php-quality-contract.sh",
         "test:analysis-contract": "bash tests/php-analysis-contract.sh",
         "test:release": "python3 -m unittest discover -s tests -p 'test_*.py'",

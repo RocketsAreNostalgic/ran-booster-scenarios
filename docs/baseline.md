@@ -31,3 +31,8 @@ and adds released-host and installed-archive proofs instead of weakening the
 host-dependent composer check to fit that caller. Shared standards are still
 consumed through the locked packages; the terminal quality check requires both
 native PHP lanes. This CI specialization is part of independent PR review.
+
+The copied WordPress skills have narrow local portability fixes: repository-root
+commands use `.codex/skills/`, and plugin detectors accept conventional starred
+PHP docblock headers as well as unstarred headers. Canonical tests exercise both
+forms and discovery of this plugin; these fixes do not change runtime behavior.

@@ -55,6 +55,29 @@ def package_files(root: Path) -> list[Path]:
     return sorted(result)
 
 
+def build_samples(root: Path) -> dict[str, dict[str, bytes]]:
+    """Prepare deterministic inert archives without release or Git prerequisites."""
+    for source in (root, root / "samples", root / "archives", *(root / "samples" / slug for slug in SAMPLES)):
+        if source.is_symlink():
+            raise ValueError("Symlinks are not fixture inputs or archive destinations")
+    samples = {}
+    for slug in SAMPLES:
+        source = root / "samples" / slug
+        files = {}
+        for path in sorted(source.rglob("*")):
+            if path.is_symlink():
+                raise ValueError("Symlink in sample")
+            if path.is_file():
+                files[slug + "/" + path.relative_to(source).as_posix()] = path.read_bytes()
+        if not files:
+            raise ValueError("Missing sample")
+        if (root / "archives" / f"{slug}.zip").is_symlink():
+            raise ValueError("Symlink archive destination")
+        write_zip(root / "archives" / f"{slug}.zip", files)
+        samples[slug] = files
+    return samples
+
+
 def build(root: Path, destination: Path, commit: str | None = None) -> Path:
     for source in (root, root / "samples", root / "archives", *(root / "samples" / slug for slug in SAMPLES)):
         if source.is_symlink():
@@ -91,19 +114,7 @@ def build(root: Path, destination: Path, commit: str | None = None) -> Path:
     if any(path.is_symlink() or path.name not in expected_names or not path.is_file() for path in destination.iterdir()):
         raise ValueError("Unexpected existing release output")
     assets = []
-    for slug in SAMPLES:
-        source = root / "samples" / slug
-        files = {}
-        for path in sorted(source.rglob("*")):
-            if path.is_symlink():
-                raise ValueError("Symlink in sample")
-            if path.is_file():
-                files[slug + "/" + path.relative_to(source).as_posix()] = path.read_bytes()
-        if not files:
-            raise ValueError("Missing sample")
-        if (root / "archives" / f"{slug}.zip").is_symlink():
-            raise ValueError("Symlink archive destination")
-        write_zip(root / "archives" / f"{slug}.zip", files)
+    for slug, files in build_samples(root).items():
         seed = destination / f"{slug}-1.0.0.zip"
         write_zip(seed, {name: data.replace(b"Version: 2.0.0", b"Version: 1.0.0") for name, data in files.items()})
         assets.append(seed)
@@ -125,5 +136,10 @@ def build(root: Path, destination: Path, commit: str | None = None) -> Path:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, default=ROOT / "build/release")
+    parser.add_argument("--samples-only", action="store_true", help="Prepare only the inert archives required by source tests")
     args = parser.parse_args()
-    print(build(ROOT, args.output_dir.resolve()))
+    if args.samples_only:
+        build_samples(ROOT)
+        print("Inert sample archives prepared.")
+    else:
+        print(build(ROOT, args.output_dir.resolve()))

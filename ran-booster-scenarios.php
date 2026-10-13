@@ -65,12 +65,26 @@ function ran_booster_scenarios_compatibility(): ?array {
 }
 
 /**
- * Re-evaluate the disposable-site and exact release guards for every HTTP request.
+ * Check the qualified PHP release series using PHP's numeric version format.
+ *
+ * @since 0.1.0
+ * @param int $version_id Numeric PHP version, as represented by PHP_VERSION_ID.
+ * @return bool Whether the runtime belongs to PHP 8.4 or 8.5.
+ */
+function ran_booster_scenarios_supports_php( int $version_id ): bool {
+	return $version_id >= 80400 && $version_id < 80600;
+}
+
+/**
+ * Re-evaluate the runtime, disposable-site and exact release guards for every HTTP request.
  *
  * @since 0.1.0
  * @return string Empty when compatible; otherwise an administrator-facing reason.
  */
 function ran_booster_scenarios_guard(): string {
+	if ( ! ran_booster_scenarios_supports_php( PHP_VERSION_ID ) ) {
+		return __( 'This fixture requires PHP 8.4 or 8.5. Other PHP versions are not qualified.', 'ran-booster-scenarios' );
+	}
 	if ( ! defined( 'RAN_BOOSTER_SCENARIOS_DISPOSABLE' ) || true !== constant( 'RAN_BOOSTER_SCENARIOS_DISPOSABLE' ) ) {
 		return __( 'Set RAN_BOOSTER_SCENARIOS_DISPOSABLE to true on a disposable site.', 'ran-booster-scenarios' );
 	}
