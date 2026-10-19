@@ -10,3 +10,4 @@ parameters:
     scanFiles:
         - ran-booster-scenarios.php
         - catalog.php
+        - pairing.php

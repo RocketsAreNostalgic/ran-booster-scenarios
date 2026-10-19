@@ -5,6 +5,12 @@ It manages version.txt, the plugin header, package.json, compatibility.json's
 fixture_version and readme.txt. Core pins are not derived from the fixture
 version: each fixture release records one exact supported Core release.
 
+Pre-release acceptance uses the separate [candidate pairing journey](docs/candidate-acceptance.md).
+Its manual Quality invocation consumes exact successful Core CI artifacts,
+produces distinctly named acceptance ZIPs and no Profile B promotion manifest.
+It cannot publish or certify a release. Generated candidate metadata is refused
+by the ordinary release builder. Final published-artifact checks still apply.
+
 Quality is read-only and qualifies exact source revisions. It builds twice,
 checks byte equality, runs PHP/frontend/host checks and installs the exact ZIP
 on disposable WordPress under PHP8.4 and8.5. It uploads the six tested ZIP/checksum

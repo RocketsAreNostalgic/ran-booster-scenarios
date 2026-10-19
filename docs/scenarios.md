@@ -1,5 +1,11 @@
 # Scenario inventory
 
+Use the exact supported released pair for published checks, or follow the fixed
+[candidate pairing workflow](candidate-acceptance.md) for unreleased inspection.
+Record both commits/artifact identities and actual installed versions with every
+result. Blueprint, Migrator, replacement and recovery additions are separately
+tracked in Scenarios#6; pairing infrastructure does not add or certify them.
+
 ## Scenario and test matrix
 
 Each applicable scenario runs for both plugins and themes, with direct links to onboarding, managed package/Automatic controls, provider management, Activity, Troubleshooting and indexed documentation as appropriate. Parameterized or workflow cases must list explicit setup/action/expected result; they must not be presented as one-click proof.
