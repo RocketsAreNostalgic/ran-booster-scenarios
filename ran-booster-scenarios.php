@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once __DIR__ . '/journeys.php';
 require_once __DIR__ . '/catalog.php';
 require_once __DIR__ . '/pairing.php';
 
@@ -254,7 +255,7 @@ function ran_booster_scenarios_http( mixed $pre, array $args, string $url ): mix
 	}
 	$blocked = new WP_Error( 'ran_booster_scenarios_blocked', __( 'Synthetic target blocked: fixture disabled, incompatible or unsupported request.', 'ran-booster-scenarios' ) );
 	$state   = ran_booster_scenarios_state();
-	if ( '' !== ran_booster_scenarios_guard() || '' === $state['scenario'] || 'api.github.com' !== $host || 'https' !== wp_parse_url( $url, PHP_URL_SCHEME ) || 'GET' !== strtoupper( is_string( $args['method'] ?? null ) ? $args['method'] : 'GET' ) ) {
+	if ( '' !== ran_booster_scenarios_guard() || '' !== ran_booster_scenarios_journey_guard( $state['scenario'] ) || '' === $state['scenario'] || 'api.github.com' !== $host || 'https' !== wp_parse_url( $url, PHP_URL_SCHEME ) || 'GET' !== strtoupper( is_string( $args['method'] ?? null ) ? $args['method'] : 'GET' ) ) {
 		return $blocked;
 	}
 	$scenario = ran_booster_scenarios_catalog()[ $state['scenario'] ];
@@ -292,6 +293,9 @@ function ran_booster_scenarios_http( mixed $pre, array $args, string $url ): mix
 	}
 	if ( ! $allowed ) {
 		return $blocked;
+	}
+	if ( in_array( $mode, array( 'partial-denied', 'partial-missing' ), true ) && ( str_starts_with( $path, '/repos/ran-booster-scenarios/scenario-theme' ) || '/repositories/940002' === $path ) ) {
+		return ran_booster_scenarios_response( array( 'message' => 'Repository unavailable in this fixed partial-preview recipe' ), 'partial-denied' === $mode ? 403 : 404 );
 	}
 	if ( in_array( $mode, array( 'unavailable', 'denied', 'rate-limited' ), true ) ) {
 		$codes = array(
@@ -345,10 +349,11 @@ function ran_booster_scenarios_http( mixed $pre, array $args, string $url ): mix
 			return ran_booster_scenarios_response( ran_booster_scenarios_repository( $slug, $repository_id ) );
 		}
 		if ( in_array( $path, array( $base . '/commits/main', $base . '/commits/v2.0.0', $base . '/commits/' . str_repeat( 'a', 40 ) ), true ) ) {
-			$response = ran_booster_scenarios_response( array( 'sha' => str_repeat( 'a', 40 ) ) );
+			$commit   = str_repeat( ( 'historical-commit' === $mode && $base . '/commits/main' === $path ) || 'wrong-commit' === $mode ? 'b' : 'a', 40 );
+			$response = ran_booster_scenarios_response( array( 'sha' => $commit ) );
 			$headers  = is_array( $args['headers'] ?? null ) ? array_change_key_case( $args['headers'], CASE_LOWER ) : array();
 			if ( 'application/vnd.github.sha' === ( $headers['accept'] ?? null ) ) {
-				$response['body']                    = str_repeat( 'a', 40 );
+				$response['body']                    = $commit;
 				$response['headers']['content-type'] = 'text/plain';
 			}
 			return $response;
@@ -357,7 +362,7 @@ function ran_booster_scenarios_http( mixed $pre, array $args, string $url ): mix
 			return ran_booster_scenarios_response(
 				array(
 					'name'   => 'main',
-					'commit' => array( 'sha' => str_repeat( 'a', 40 ) ),
+					'commit' => array( 'sha' => str_repeat( 'historical-commit' === $mode || 'wrong-commit' === $mode ? 'b' : 'a', 40 ) ),
 				)
 			);
 		}
@@ -365,7 +370,7 @@ function ran_booster_scenarios_http( mixed $pre, array $args, string $url ): mix
 			return ran_booster_scenarios_archive( $slug, $args );
 		}
 		if ( $base . '/releases/assets/' . ( $repository_id + 200 ) === $path ) {
-			return in_array( $mode, array( 'immutable', 'mutable' ), true ) ? ran_booster_scenarios_archive( $slug, $args ) : $blocked;
+			return in_array( $mode, array( 'immutable', 'mutable', 'partial-denied', 'partial-missing', 'historical-commit', 'wrong-commit' ), true ) ? ran_booster_scenarios_archive( $slug, $args ) : $blocked;
 		}
 		if ( ! in_array( $path, array( $base . '/releases', $base . '/releases/latest', $base . '/releases/tags/v2.0.0', $base . '/releases/' . ( $repository_id + 100 ) ), true ) ) {
 			return $blocked;
@@ -392,7 +397,7 @@ function ran_booster_scenarios_http( mixed $pre, array $args, string $url ): mix
 			'tag_name'     => 'v2.0.0',
 			'draft'        => false,
 			'prerelease'   => false,
-			'immutable'    => 'immutable' === $mode,
+			'immutable'    => in_array( $mode, array( 'immutable', 'partial-denied', 'partial-missing', 'historical-commit', 'wrong-commit' ), true ),
 			'published_at' => '2026-10-13T00:00:00Z',
 			'html_url'     => 'https://github.com/' . $repository . '/releases/tag/v2.0.0',
 			'assets'       => array(
@@ -434,7 +439,7 @@ function ran_booster_scenarios_save(): void {
 		if ( 'select' === $operation ) {
 			$selected = isset( $_POST['scenario'] ) && is_string( $_POST['scenario'] ) ? sanitize_key( wp_unslash( $_POST['scenario'] ) ) : '';
 			$target   = isset( $_POST['target'] ) && is_string( $_POST['target'] ) ? sanitize_key( wp_unslash( $_POST['target'] ) ) : '';
-			if ( isset( $catalog[ $selected ] ) && in_array( $target, array( 'both', 'plugin', 'theme' ), true ) ) {
+			if ( isset( $catalog[ $selected ] ) && '' === ran_booster_scenarios_journey_guard( $selected ) && in_array( $target, array( 'both', 'plugin', 'theme' ), true ) ) {
 				update_option(
 					'ran_booster_scenarios_state',
 					array(
@@ -445,7 +450,7 @@ function ran_booster_scenarios_save(): void {
 					false
 				);
 			}
-		} elseif ( 'advance' === $operation && isset( $catalog[ $state['scenario'] ] ) && '' !== $catalog[ $state['scenario'] ]['next'] ) {
+		} elseif ( 'advance' === $operation && '' === ran_booster_scenarios_journey_guard( $state['scenario'] ) && isset( $catalog[ $state['scenario'] ] ) && '' !== $catalog[ $state['scenario'] ]['next'] ) {
 			update_option(
 				'ran_booster_scenarios_state',
 				array(
@@ -474,6 +479,9 @@ function ran_booster_scenarios_page(): void {
 	$state         = ran_booster_scenarios_state();
 	$guard         = ran_booster_scenarios_guard();
 	$compatibility = ran_booster_scenarios_compatibility();
+	if ( '' === $guard ) {
+		$guard = ran_booster_scenarios_journey_guard( $state['scenario'] );
+	}
 	echo '<div class="wrap"><h1>' . esc_html( __( 'Booster scenarios', 'ran-booster-scenarios' ) ) . '</h1>';
 	if ( null !== $compatibility ) {
 		/* translators: 1: Fixture plugin version, 2: Required Booster Core version. */
@@ -493,7 +501,7 @@ function ran_booster_scenarios_page(): void {
 	wp_nonce_field( 'ran_booster_scenarios_save' );
 	echo '<label for="ran-scenario">' . esc_html( __( 'Scenario', 'ran-booster-scenarios' ) ) . ' </label><select id="ran-scenario" name="scenario">';
 	foreach ( ran_booster_scenarios_catalog() as $key => $scenario ) {
-		echo '<option value="' . esc_attr( $key ) . '" ' . selected( $state['scenario'], $key, false ) . '>' . esc_html( $scenario['label'] ) . '</option>';
+		echo '<option value="' . esc_attr( $key ) . '" ' . selected( $state['scenario'], $key, false ) . ( '' !== ran_booster_scenarios_journey_guard( $key ) ? ' disabled' : '' ) . '>' . esc_html( $scenario['label'] ) . '</option>';
 	}
 	echo '</select> <label for="ran-target">' . esc_html( __( 'Target', 'ran-booster-scenarios' ) ) . '</label><select id="ran-target" name="target">';
 	foreach ( array(
@@ -509,7 +517,9 @@ function ran_booster_scenarios_page(): void {
 	foreach ( ran_booster_scenarios_routes() as $label => $route ) {
 		echo '<li><a href="' . esc_url( admin_url( $route ) ) . '">' . esc_html( $label ) . '</a></li>';
 	}
-	echo '</ul></div>';
+	echo '</ul>';
+	ran_booster_scenarios_render_journeys( $guard );
+	echo '</div>';
 }
 
 /**
@@ -539,6 +549,9 @@ function ran_booster_scenarios_status(): string {
 function ran_booster_scenarios_notice(): void {
 	if ( current_user_can( 'manage_options' ) ) {
 		$guard = ran_booster_scenarios_guard();
+		if ( '' === $guard ) {
+			$guard = ran_booster_scenarios_journey_guard( ran_booster_scenarios_state()['scenario'] );
+		}
 		echo '<div class="notice notice-warning"><p>' . esc_html( __( 'Booster test fixture installed.', 'ran-booster-scenarios' ) ) . ' ' . esc_html( '' !== $guard ? $guard : ran_booster_scenarios_status() ) . ' <a href="' . esc_url( admin_url( 'tools.php?page=ran-booster-scenarios' ) ) . '">' . esc_html( __( 'Scenario controls', 'ran-booster-scenarios' ) ) . '</a></p></div>';
 	}
 }

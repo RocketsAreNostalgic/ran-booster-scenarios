@@ -26,3 +26,10 @@ ZIP, and qualifies installed PHP8.5 behavior. Candidate APIs must match the
 reviewed source's required API tuple. Changing either candidate requires a new
 pair; source Quality and independent review remain required. This does not
 authorize new scenario implementation or publication. Never add a runtime bypass.
+
+Connected journey inputs and prerequisites are documented in
+[connected walkthroughs](docs/connected-walkthroughs.md). The ordinary six release assets remain unchanged in shape;
+ten credential-free Blueprint inputs are deterministic nested plugin contents.
+New recipes require the feature-bearing exact Core pair and refuse unavailable
+APIs. External replacement/Migrator fixtures and genuine interrupted-operation
+prerequisites are separately verified; no fixture action clears acceptance holds.

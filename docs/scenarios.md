@@ -3,8 +3,12 @@
 Use the exact supported released pair for published checks, or follow the fixed
 [candidate pairing workflow](candidate-acceptance.md) for unreleased inspection.
 Record both commits/artifact identities and actual installed versions with every
-result. Blueprint, Migrator, replacement and recovery additions are separately
-tracked in Scenarios#6; pairing infrastructure does not add or certify them.
+result. Connected Blueprint, Migrator, replacement and recovery recipes now appear on
+the control page: BP-01–06, MIG-01–02, REP-01–04 and REC-01–07. Follow
+[connected walkthroughs](connected-walkthroughs.md) for their real routes, fixed
+Blueprint downloads, permissions, setup/action/reset and manual prerequisites.
+Selecting a recipe does not execute or certify a journey. Scenarios#6 stays open
+for owner-dependent fault fixtures and actual browser evidence.
 
 ## Scenario and test matrix
 

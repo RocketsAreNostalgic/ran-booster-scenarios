@@ -348,3 +348,13 @@ function __( string $text, string $domain ): string { // phpcs:ignore WordPress.
 function esc_html( string $text ): string { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Preserve the WordPress escaping identity.
 	return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
 }
+
+/**
+ * Escape controlled attribute values using the WordPress function identity.
+ *
+ * @param string $text Attribute input.
+ * @return string Escaped attribute.
+ */
+function esc_attr( string $text ): string { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Preserve the WordPress escaping identity.
+	return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
+}

@@ -5,11 +5,13 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / 'scripts'))
 SPEC = importlib.util.spec_from_file_location("builder", ROOT / "scripts/build-release.py")
 assert SPEC and SPEC.loader
 builder = importlib.util.module_from_spec(SPEC)
@@ -22,7 +24,7 @@ class ReleaseTest(unittest.TestCase):
         self.addCleanup(self.temporary.cleanup)
         self.root = Path(self.temporary.name) / "source"
         self.root.mkdir()
-        for name in ("version.txt", "compatibility.json", "ran-booster-scenarios.php", "catalog.php", "pairing.php", "README.md", "CONTRIBUTING.md", "RELEASE.md", "readme.txt", "LICENSE", "LICENSE.starter", "release-contents.txt", ".release-please-manifest.json", "package.json"):
+        for name in ("version.txt", "compatibility.json", "ran-booster-scenarios.php", "catalog.php", "pairing.php", "journeys.php", "README.md", "CONTRIBUTING.md", "RELEASE.md", "readme.txt", "LICENSE", "LICENSE.starter", "release-contents.txt", ".release-please-manifest.json", "package.json"):
             shutil.copy2(ROOT / name, self.root / name)
         shutil.copytree(ROOT / "samples", self.root / "samples")
         shutil.copytree(ROOT / "docs", self.root / "docs")
@@ -53,6 +55,7 @@ class ReleaseTest(unittest.TestCase):
         shutil.copy2(ROOT / "phpunit.xml", self.root / "phpunit.xml")
         (self.root / "scripts").mkdir()
         shutil.copy2(ROOT / "scripts/build-release.py", self.root / "scripts/build-release.py")
+        shutil.copy2(ROOT / "scripts/blueprint_fixtures.py", self.root / "scripts/blueprint_fixtures.py")
         (self.root / "tests").mkdir()
         for name in ("bootstrap.php", "ScenarioFixturePluginTest.php"):
             shutil.copy2(ROOT / "tests" / name, self.root / "tests" / name)

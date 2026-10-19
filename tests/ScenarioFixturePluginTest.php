@@ -501,6 +501,84 @@ final class ScenarioFixturePluginTest extends TestCase {
 		self::assertInstanceOf( \WP_Error::class, $response );
 	}
 
+	/** Verify every connected journey exposes executable phases and honest prerequisites. */
+	public function test_connected_catalog_has_complete_phases_and_fixed_navigation(): void {
+		$journeys = ran_booster_scenarios_journeys();
+		self::assertCount( 19, $journeys );
+		$ids = array();
+		foreach ( $journeys as $key => $journey ) {
+			$ids[] = $journey['id'];
+			foreach ( array( 'setup', 'action', 'expected', 'reset', 'prerequisite' ) as $phase ) {
+				self::assertNotSame( '', trim( $journey[ $phase ] ) );
+			}
+			self::assertSame( $journey['expected'], ran_booster_scenarios_catalog()[ $key ]['expected'] );
+			foreach ( ran_booster_scenarios_journey_routes( $key ) as $route ) {
+				self::assertStringStartsWith( 'admin.php?page=ran-booster', $route );
+				self::assertStringNotContainsString( 'action=', $route );
+				self::assertStringNotContainsString( '://', $route );
+				self::assertStringNotContainsString( 'attempt=', $route );
+			}
+		}
+		self::assertCount( 19, array_unique( $ids ) );
+		self::assertSame( array(), ran_booster_scenarios_journey_routes( '../../unknown' ) );
+		foreach ( ran_booster_scenarios_journey_routes( 'recovery-healthy' ) as $route ) {
+			self::assertStringNotContainsString( 'recovery=', $route );
+		}
+		foreach ( ran_booster_scenarios_journey_routes( 'recovery-review' ) as $route ) {
+			self::assertStringContainsString( 'recovery=1&recovery_target=scenario-', $route );
+		}
+	}
+
+	/** Verify older Core APIs cannot activate or continue a connected recipe. */
+	public function test_missing_connected_capability_refuses_selection_and_http(): void {
+		$this->enable();
+		$this->select( 'immutable' );
+		self::assertNotSame( '', ran_booster_scenarios_journey_guard( 'blueprint-partial' ) );
+		$this->submit(
+			array(
+				'operation' => 'select',
+				'scenario'  => 'blueprint-partial',
+				'target'    => 'both',
+			)
+		);
+		self::assertSame( 'immutable', ran_booster_scenarios_state()['scenario'] );
+		$this->select( 'blueprint-partial' );
+		$this->assert_blocked( $this->request() );
+		$this->submit( array( 'operation' => 'advance' ) );
+		self::assertSame( 0, ran_booster_scenarios_state()['stage'] );
+		$this->submit( array( 'operation' => 'reset' ) );
+		self::assertSame( '', ran_booster_scenarios_state()['scenario'] );
+	}
+
+	/** Verify unavailable walkthroughs remain readable without actionable links or writes. */
+	public function test_unavailable_walkthrough_instructions_render_without_mutation(): void {
+		$this->enable();
+		$this->select( 'immutable' );
+		$before = $GLOBALS['ran_booster_scenario_options'];
+		ob_start();
+		ran_booster_scenarios_render_journeys( 'Exact pairing unavailable' );
+		$html = ob_get_clean();
+		self::assertIsString( $html );
+		self::assertStringContainsString( 'BP-01', $html );
+		self::assertStringContainsString( 'MIG-02', $html );
+		self::assertStringContainsString( 'REC-07', $html );
+		self::assertStringContainsString( 'manual', strtolower( $html ) );
+		self::assertStringNotContainsString( 'href=', $html );
+		self::assertSame( $before, $GLOBALS['ran_booster_scenario_options'] );
+	}
+
+	/** Verify public downloads stay within the explicit generated archive inventory. */
+	public function test_blueprint_downloads_are_fixed_explicit_release_inputs(): void {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Inspect the reviewed local package allowlist.
+		$manifest = file_get_contents( dirname( __DIR__ ) . '/release-contents.txt' );
+		self::assertIsString( $manifest );
+		self::assertCount( 10, ran_booster_scenarios_blueprint_files() );
+		foreach ( ran_booster_scenarios_blueprint_files() as $file ) {
+			self::assertMatchesRegularExpression( '/^blueprint-[a-z-]+\.zip$/D', $file );
+			self::assertContains( 'archives/' . $file, explode( "\n", $manifest ) );
+		}
+	}
+
 	/**
 	 * Enable.
 	 */

@@ -42,3 +42,10 @@ The copied WordPress skills have narrow local portability fixes: repository-root
 commands use `.codex/skills/`, and plugin detectors accept conventional starred
 PHP docblock headers as well as unstarred headers. Canonical tests exercise both
 forms and discovery of this plugin; these fixes do not change runtime behavior.
+
+Connected journey inputs and prerequisites are documented in
+[connected walkthroughs](connected-walkthroughs.md). The ordinary six release assets remain unchanged in shape;
+ten credential-free Blueprint inputs are deterministic nested plugin contents.
+New recipes require the feature-bearing exact Core pair and refuse unavailable
+APIs. External replacement/Migrator fixtures and genuine interrupted-operation
+prerequisites are separately verified; no fixture action clears acceptance holds.

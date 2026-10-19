@@ -37,7 +37,7 @@ final class CandidatePairingTest extends TestCase {
 		mkdir( $this->directory . '/ran-booster', 0700, true );
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir -- Create private disposable test artifacts.
 		mkdir( $this->directory . '/ran-booster-scenarios', 0700 );
-		foreach ( array( 'ran-booster-scenarios.php', 'catalog.php', 'pairing.php' ) as $file ) {
+		foreach ( array( 'ran-booster-scenarios.php', 'catalog.php', 'pairing.php', 'journeys.php' ) as $file ) {
 			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_copy -- Copy maintained runtime into an isolated installation.
 			copy( dirname( __DIR__ ) . '/' . $file, $this->directory . '/ran-booster-scenarios/' . $file );
 		}

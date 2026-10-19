@@ -30,9 +30,12 @@ def exact_source(root, commit):
     subprocess.run(['git', 'diff', '--exit-code', commit, '--'], cwd=root, check=True, capture_output=True)
     # Generated archives are allowed; other untracked packaged inputs would falsify source identity.
     tracked = set(subprocess.check_output(['git', 'ls-files'], cwd=root, text=True).splitlines())
+    generated = {'archives/scenario-plugin.zip', 'archives/scenario-theme.zip'} | {
+        'archives/' + name for name in release_builder.BLUEPRINT_FILES
+    }
     for path in release_builder.package_files(root):
         relative = path.relative_to(root).as_posix()
-        if relative not in tracked and relative not in {'archives/scenario-plugin.zip', 'archives/scenario-theme.zip'}:
+        if relative not in tracked and relative not in generated:
             raise ValueError('Untracked packaged file differs from selected Scenarios source')
     if (root / 'candidate-pairing.json').exists():
         raise ValueError('Candidate metadata must be generated only in build output')

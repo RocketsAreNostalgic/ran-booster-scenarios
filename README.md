@@ -6,7 +6,9 @@ Booster still performs normal validation, persistence, eligibility and rendering
 It never injects notices or marks acceptance tests as passed.
 
 The complete scenario and acceptance inventory is
-[the scenario inventory](docs/scenarios.md).
+[the scenario inventory](docs/scenarios.md). Connected Blueprint, replacement,
+Migrator and recovery journeys have fixed recipes and explicit prerequisites in
+[connected walkthroughs](docs/connected-walkthroughs.md).
 The first release targets exactly **Core 1.0.0-beta.35**, released commit
 `5743df3af0a33c35839aec0bb369a72d084b3d7a`, with Provider API15, Add-on API17
 and Admin Interaction API3. Install Core's published ZIP, including its release
@@ -58,7 +60,9 @@ define( 'RAN_BOOSTER_SCENARIOS_DISPOSABLE', true );
 Open **Tools → Booster scenarios**. The page reports any compatibility problem.
 Choose the scenario and plugin/theme target, then select **Select / restart**.
 The selection survives later browser, cron and WP-CLI requests. No real GitHub
-token is needed for the synthetic public repositories. Do not use production
+token is needed for the two synthetic public repositories. External Migrator and
+replacement fixtures have their own exact artifact/custody prerequisites; this
+plugin does not provision them or change global provider state. Do not use production
 credentials for this fixture.
 
 For update tests, install the v1 target ZIPs using normal WordPress upload

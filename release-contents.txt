@@ -2,6 +2,7 @@
 ran-booster-scenarios.php
 catalog.php
 pairing.php
+journeys.php
 compatibility.json
 README.md
 CONTRIBUTING.md
@@ -9,12 +10,23 @@ RELEASE.md
 docs/baseline.md
 docs/scenarios.md
 docs/candidate-acceptance.md
+docs/connected-walkthroughs.md
 readme.txt
 LICENSE
 samples/scenario-plugin
 samples/scenario-theme
 archives/scenario-plugin.zip
 archives/scenario-theme.zip
+archives/blueprint-branch-plugin.zip
+archives/blueprint-branch-theme.zip
+archives/blueprint-branch-mixed.zip
+archives/blueprint-selected-plugin.zip
+archives/blueprint-selected-theme.zip
+archives/blueprint-selected-mixed.zip
+archives/blueprint-unsupported-release.zip
+archives/blueprint-mixed-partial.zip
+archives/blueprint-malformed.zip
+archives/blueprint-unsupported-version.zip
 
 LICENSE.starter
 languages

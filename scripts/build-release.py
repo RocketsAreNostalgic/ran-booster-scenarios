@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import subprocess
 import zipfile
+from blueprint_fixtures import BLUEPRINT_FILES, build_blueprints
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -75,6 +76,7 @@ def build_samples(root: Path) -> dict[str, dict[str, bytes]]:
             raise ValueError("Symlink archive destination")
         write_zip(root / "archives" / f"{slug}.zip", files)
         samples[slug] = files
+    build_blueprints(root)
     return samples
 
 

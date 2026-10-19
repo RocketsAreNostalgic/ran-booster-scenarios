@@ -9,6 +9,7 @@ parameters:
         - ran-booster-scenarios.php
         - catalog.php
         - pairing.php
+        - journeys.php
         - samples
         - scripts
         - tests

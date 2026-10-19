@@ -57,3 +57,10 @@ replace an asset, move a tag or rerun blindly. See the organisation
 
 This lifecycle publishes GitHub test-tool releases only. WordPress.org
 publication, deployments and manual UI acceptance are separate work.
+
+Connected journey inputs and prerequisites are documented in
+[connected walkthroughs](docs/connected-walkthroughs.md). The ordinary six release assets remain unchanged in shape;
+ten credential-free Blueprint inputs are deterministic nested plugin contents.
+New recipes require the feature-bearing exact Core pair and refuse unavailable
+APIs. External replacement/Migrator fixtures and genuine interrupted-operation
+prerequisites are separately verified; no fixture action clears acceptance holds.
