@@ -10,6 +10,7 @@ import io
 import json
 from pathlib import Path
 import sys
+import tempfile
 import unittest
 import zipfile
 
@@ -21,6 +22,23 @@ spec.loader.exec_module(proposal)
 
 
 class CoreReleaseTest(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.proposal_root = Path(temporary.name)
+        # Proposal tests own their starting release; a real compatibility bump
+        # must not turn their mocked newer release into an equal-version no-op.
+        current = {
+            'schema_version': 1, 'fixture_version': '9.8.7',
+            'core_version': '1.0.0-beta.35', 'core_commit': 'b' * 40,
+            'core_zip_sha256': 'c' * 64, 'provider_api': 15,
+            'addon_api': 17, 'admin_interaction_api': 3,
+        }
+        (self.proposal_root / 'compatibility.json').write_text(json.dumps(current) + '\n')
+        location = patch.object(proposal, '__file__', str(self.proposal_root / 'scripts/propose-core-update.py'))
+        location.start()
+        self.addCleanup(location.stop)
+
     def fixture(self, extra=None):
         commit = 'a' * 40
         marker = {'schema': 'ran-booster-core-release', 'schema_version': 1, 'version': '1.0.0-beta.36', 'commit': commit}
@@ -94,7 +112,7 @@ class CoreReleaseTest(unittest.TestCase):
         self.assertIn('/actions/workflows/quality.yml/dispatches', source)
 
     def test_proposal_writes_only_contract_then_dispatches(self):
-        current_text = (Path(__file__).resolve().parents[1] / 'compatibility.json').read_text()
+        current_text = (self.proposal_root / 'compatibility.json').read_text()
         current = json.loads(current_text)
         _, release, _ = self.fixture()
         release['html_url'] = 'https://github.com/RocketsAreNostalgic/ran-booster/releases/tag/v1.0.0-beta.36'
@@ -124,6 +142,7 @@ class CoreReleaseTest(unittest.TestCase):
                 self.assertEqual(len(payload['tree']), 1)
                 updated = json.loads(payload['tree'][0]['content'])
                 self.assertEqual(updated['fixture_version'], current['fixture_version'])
+                self.assertEqual(updated, dict(current, **evidence))
                 return {'sha': 'e' * 40}
             if path.endswith('/git/commits'):
                 return {'sha': 'c' * 40}
@@ -136,6 +155,17 @@ class CoreReleaseTest(unittest.TestCase):
             proposal.main()
         writes = [path for path, method, _ in calls if method == 'POST']
         self.assertEqual([path.rsplit('/', 1)[-1] for path in writes], ['trees', 'commits', 'refs', 'pulls', 'dispatches'])
+
+    def test_equal_release_does_not_verify_or_write(self):
+        path = self.proposal_root / 'compatibility.json'
+        current = json.loads(path.read_text())
+        current['core_version'] = '1.0.0-beta.36'
+        path.write_text(json.dumps(current) + '\n')
+        _, release, _ = self.fixture()
+        with patch.object(proposal, 'api', return_value=[release]) as client, patch.object(proposal, 'verified_release') as verify, patch.object(sys, 'argv', ['proposal', '--apply']):
+            proposal.main()
+        client.assert_called_once_with('repos/' + proposal.CORE + '/releases?per_page=100')
+        verify.assert_not_called()
 
     def test_wrong_repository_cannot_propose(self):
         _, release, _ = self.fixture()
