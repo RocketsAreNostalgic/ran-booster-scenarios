@@ -146,6 +146,7 @@ class CandidateTest(unittest.TestCase):
             root = temporary / 'source'
             root.mkdir()
             self.source_copy(root)
+            original_contract = (root / 'compatibility.json').read_bytes()
             core_dir = temporary / 'acquired'
             core_dir.mkdir()
             (core_dir / 'core.zip').write_bytes(inner)
@@ -172,7 +173,7 @@ class CandidateTest(unittest.TestCase):
             (scenarios / 'catalog.php').write_text('changed')
             with self.assertRaises(ValueError):
                 builder.verify_installed(pairing, core, scenarios)
-            self.assertEqual(json.loads((root / 'compatibility.json').read_text())['core_version'], '1.0.0-beta.35')
+            self.assertEqual((root / 'compatibility.json').read_bytes(), original_contract)
 
     def test_candidate_release_admission_and_api_mismatch_refuse(self):
         evidence, inner = self.inspect(self.fixture())
