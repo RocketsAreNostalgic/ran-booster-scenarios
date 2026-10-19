@@ -12,7 +12,7 @@
  * @return array<string, array{label: string, initial: string, next: string, expected: string}> Reviewed scenario definitions.
  */
 function ran_booster_scenarios_catalog(): array {
-	return array(
+	$catalog = array(
 		'immutable'         => array(
 			'label'    => __( 'Immutable release', 'ran-booster-scenarios' ),
 			'initial'  => 'immutable',
@@ -74,6 +74,15 @@ function ran_booster_scenarios_catalog(): array {
 			'expected' => __( 'Stage 0 valid offer; advance explicitly, refresh normally, then verify the offer disappears while earlier history remains.', 'ran-booster-scenarios' ),
 		),
 	);
+	foreach ( ran_booster_scenarios_journeys() as $key => $journey ) {
+		$catalog[ $key ] = array(
+			'label'    => $journey['id'] . ' · ' . $journey['label'],
+			'initial'  => $journey['initial'],
+			'next'     => $journey['next'],
+			'expected' => $journey['expected'],
+		);
+	}
+	return $catalog;
 }
 
 /**

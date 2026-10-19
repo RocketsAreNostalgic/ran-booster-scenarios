@@ -46,6 +46,15 @@ def prove(site, artifacts):
     # A separate WordPress bootstrap under the cron context uses the same fixed
     # pairing and synthetic request checks. Actual browser journeys remain pending.
     print(wp(site, '--exec=define("DOING_CRON", true);', 'eval-file', proof))
+    connected_status = 'not-applicable: required connected Core APIs unavailable'
+    feature = wp(site, '--user=admin', 'eval', "echo '' === ran_booster_scenarios_journey_guard('blueprint-archive') ? 'available' : 'unavailable';")
+    if feature not in ('available', 'unavailable'):
+        raise ValueError('Ambiguous installed connected-feature availability')
+    if feature == 'available':
+        connected = str(ROOT / 'tests/connected-installed-proof.php')
+        print(wp(site, '--user=admin', 'eval-file', connected))
+        print(wp(site, '--user=admin', '--exec=define("DOING_CRON", true);', 'eval-file', connected))
+        connected_status = 'passed'
     builder.verify_installed(artifacts / 'candidate-pairing.json', plugin_root / 'ran-booster', plugin_root / 'ran-booster-scenarios')
     record['environment'] = {'wordpress': wp(site, 'core', 'version'),
                              'php': subprocess.check_output(['php', '-r', 'echo PHP_VERSION;'], text=True)}
@@ -53,6 +62,7 @@ def prove(site, artifacts):
         raise ValueError('Candidate installed qualification requires PHP 8.5')
     record['proofs'].update({'installed_php_8_5': 'passed', 'installed_file_readback': 'passed',
                              'wp_cli_synthetic_boundary': 'passed', 'cron_context_synthetic_boundary': 'passed',
+                             'connected_fixture_boundary': connected_status,
                              'browser_walkthrough': 'pending'})
     record_path.write_text(json.dumps(record, indent=2) + '\n')
     handover = [
@@ -66,6 +76,8 @@ def prove(site, artifacts):
         'Use a disposable local/development PHP 8.5 site with Core self-updates disabled.',
         'Open Tools → Booster scenarios and verify the fixed expected/detected identities.',
         'Inspect the agreed catalog scenarios; record outcomes and screenshots against this pair.',
+        'Connected catalog BP-01–06, MIG-01–02, REP-01–04 and REC-01–07: prerequisites/setup/action/reset are in packaged docs/connected-walkthroughs.md.',
+        'Connected proof status below is passed or explicitly not applicable when required APIs are unavailable; it never certifies actual browser/product mutations or external Migrator/replacement fixtures.',
         '', 'Automated proof results and versions:', '```json', json.dumps({k: record[k] for k in ('environment', 'proofs')}, indent=2), '```',
         '', 'Browser walkthrough remains pending. This is acceptance evidence for this pair only; no publication, live-provider, security or concurrency certification.',
     ]

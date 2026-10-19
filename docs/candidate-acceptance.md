@@ -144,3 +144,10 @@ configuration explicitly before restoring the site's normal update mode.
 
 Candidate walkthroughs do not replace final published-artifact checks or
 establish live-provider, credential-transfer, security or concurrency acceptance.
+
+Connected fixtures are qualified only when the installed Core exposes their
+required V2/API4 features. Other otherwise valid fixed candidate pairs retain
+their ordinary proofs and show those journeys unavailable; the pairing record
+marks connected proofs explicitly not applicable, never passed. The connected
+proof checks inert archive validation, HTTP target/stage boundaries and rendered
+controls, while actual browser transitions and satellite qualification stay pending.

@@ -104,52 +104,588 @@ msgstr ""
 msgid "Stage 0 valid offer; advance explicitly, refresh normally, then verify the offer disappears while earlier history remains."
 msgstr ""
 
-#: catalog.php:87
+#: catalog.php:96
 msgid "Fixture plugin management"
 msgstr ""
 
-#: catalog.php:88
+#: catalog.php:97
 msgid "Fixture theme management"
 msgstr ""
 
-#: catalog.php:89
+#: catalog.php:98
 msgid "Activity history"
 msgstr ""
 
-#: catalog.php:90
+#: catalog.php:99
 msgid "Published release guidance"
 msgstr ""
 
-#: catalog.php:91
+#: catalog.php:100
 msgid "Booster overview"
 msgstr ""
 
-#: catalog.php:92
+#: catalog.php:101
 msgid "GitHub repositories"
 msgstr ""
 
-#: catalog.php:93
+#: catalog.php:102
 msgid "Add plugin repository"
 msgstr ""
 
-#: catalog.php:94
+#: catalog.php:103
 msgid "Add theme repository"
 msgstr ""
 
-#: catalog.php:95
+#: catalog.php:104
 msgid "Booster troubleshooting"
 msgstr ""
 
-#: catalog.php:96
+#: catalog.php:105
 msgid "Installed plugins"
 msgstr ""
 
-#: catalog.php:97
+#: catalog.php:106
 msgid "Installed themes"
 msgstr ""
 
-#: catalog.php:98
+#: catalog.php:107
 msgid "WordPress updates"
+msgstr ""
+
+#: journeys.php:20
+msgid "Blueprint export and import"
+msgstr ""
+
+#: journeys.php:21
+msgid "Use the exact candidate pair. Link the harmless plugin/theme through normal Booster controls. Export selected packages; separately download a bundled Blueprint fixture below."
+msgstr ""
+
+#: journeys.php:22
+msgid "On Transporter, export without credentials, upload the archive and Preview. For password cases, manually export a synthetic credential with explicit consent and try correct and wrong passwords; also upload the malformed fixture."
+msgstr ""
+
+#: journeys.php:23
+msgid "Real validation and messages appear. Invalid archives/passwords disclose no credentials and apply nothing. A preview is not an installation or acceptance pass."
+msgstr ""
+
+#: journeys.php:24
+msgid "Discard downloaded credential archives securely. Reset fixture selection; use normal Stop managing/uninstall controls only for unchanged disposable targets."
+msgstr ""
+
+#: journeys.php:25
+msgid "Plugin and theme. Administrator; export/import consent. Password/credential cases require a manually created synthetic export, never production secrets."
+msgstr ""
+
+#: journeys.php:32
+msgid "Blueprint destination comparison"
+msgstr ""
+
+#: journeys.php:33
+msgid "Use branch plugin/theme/mixed fixtures with targets absent, installed unmanaged, or normally linked with matching/different configuration in separate trials."
+msgstr ""
+
+#: journeys.php:34
+msgid "Upload and Preview on Transporter. Inspect configuration and installed-equality columns; repeat with unsupported-release and unsupported-version archives."
+msgstr ""
+
+#: journeys.php:35
+msgid "Configuration matches are distinct from artifact reproduction. Missing evidence stays unknown/not checked. Unsupported selection/capability refuses the affected operation."
+msgstr ""
+
+#: journeys.php:36
+msgid "Close the preview. Restore only disposable targets through ordinary explicit controls; retain genuine history and shared credentials."
+msgstr ""
+
+#: journeys.php:37
+msgid "Plugin and theme. Administrator plus the real per-target install/update capability. Installed/configuration variants require supported manual setup."
+msgstr ""
+
+#: journeys.php:44
+msgid "Blueprint partial preview: 403 → 404"
+msgstr ""
+
+#: journeys.php:45
+msgid "Download the mixed selected-commit fixture. Both targets must be absent. This recipe denies only the theme repository while the plugin remains available."
+msgstr ""
+
+#: journeys.php:46
+msgid "Upload and Preview. Advance explicitly to stage 1 and Preview afresh for theme 404. Separately select the existing rate-limit/unavailable recipes and repeat."
+msgstr ""
+
+#: journeys.php:47
+msgid "Useful partial/not-checked results without false readiness, cross-use of credentials or unbounded retries. Record actual calls as bounded-work evidence only."
+msgstr ""
+
+#: journeys.php:48
+msgid "Reset selection; no preview cleanup may delete Core records, history, credentials or locks."
+msgstr ""
+
+#: journeys.php:49
+msgid "Both targets selected. Administrator. Mixed-provider, repeated-repository and saved/temporary credential variants require separate reviewed manual input; this fixed recipe does not certify them."
+msgstr ""
+
+#: journeys.php:56
+msgid "Blueprint credential and adoption consent"
+msgstr ""
+
+#: journeys.php:57
+msgid "Manually export synthetic credentials through Core, or create a compatible synthetic saved profile. Never use production credentials."
+msgstr ""
+
+#: journeys.php:58
+msgid "Compare leaving credentials unchanged, choosing an existing credential and explicitly importing transferred material. Withhold adoption consent, then grant it through the real form."
+msgstr ""
+
+#: journeys.php:59
+msgid "Missing consent causes no persistence/action. An explicit import binds only the selected credential. Inspect labels, explanation and keyboard focus without exposing secret values."
+msgstr ""
+
+#: journeys.php:60
+msgid "Remove only unchanged test-owned credentials through normal controls after their targets are unlinked. Keep all unrelated profiles and history."
+msgstr ""
+
+#: journeys.php:61
+msgid "Plugin and theme. Manual synthetic credential setup and explicit permission for that disposable-site mutation."
+msgstr ""
+
+#: journeys.php:68
+msgid "Blueprint stale provider review"
+msgstr ""
+
+#: journeys.php:69
+msgid "Use a separately verified replacement fixture and save a real Blueprint review. Provider selection changes require the local acceptance owner."
+msgstr ""
+
+#: journeys.php:70
+msgid "Change provider selection through Core, submit the old review, then Preview afresh and explicitly Apply the new review."
+msgstr ""
+
+#: journeys.php:71
+msgid "The stale review refuses before credential disclosure/persistence, provider work or package mutation. Fresh Apply uses current authorization and checks."
+msgstr ""
+
+#: journeys.php:72
+msgid "Return provider selection through its explicit supported consent flow. Do not overwrite selection options or replay old queues."
+msgstr ""
+
+#: journeys.php:73
+msgid "Plugin and theme. Administrator/activate_plugins. Reviewed replacement artifact and authorized global selection change are manual prerequisites."
+msgstr ""
+
+#: journeys.php:80
+msgid "Initial exact-commit install and refusal"
+msgstr ""
+
+#: journeys.php:81
+msgid "The selected plugin/theme targets must be absent. Use a selected-commit Blueprint: its a…a commit differs from the recipe’s b…b tracking-branch head."
+msgstr ""
+
+#: journeys.php:82
+msgid "Preview and explicitly Apply through Transporter; inspect the installed target in a fresh request. In a separate clean trial advance to wrong resolved commit and retry."
+msgstr ""
+
+#: journeys.php:83
+msgid "Supported initial installation uses the selected commit and intended package identity, stays inactive and is managed Disabled. Wrong resolution refuses. Initial selection is not a permanent update lock; existing-target rollback/selected-release execution is not implied."
+msgstr ""
+
+#: journeys.php:84
+msgid "Use normal Stop managing and WordPress uninstall only for the exact unchanged disposable target. Never erase protection or in-flight work to reset."
+msgstr ""
+
+#: journeys.php:85
+msgid "Plugin and theme, one absent target at a time. Administrator and real installation capability. Use BP-02 for existing-target adoption, which preserves installed bytes."
+msgstr ""
+
+#: journeys.php:92
+msgid "Migrator eligibility and retained-row review"
+msgstr ""
+
+#: journeys.php:93
+msgid "Use the separately verified Migrator source80 ZIP and helper81 shell wrapper documented in connected-walkthroughs.md. Supply the digest-verified official WP Pusher archive privately; keep WP Pusher inactive."
+msgstr ""
+
+#: journeys.php:94
+msgid "Run wrapper setup/seed/readback on its marked disposable site, then open Transporter and review the actual retained row. Coordinate active-source/unsupported-schema cases separately."
+msgstr ""
+
+#: journeys.php:95
+msgid "Actual Migrator eligibility and honest reasons. A version/database declaration alone is insufficient. Retained-row fixtures do not prove WP Pusher activation-created data."
+msgstr ""
+
+#: journeys.php:96
+msgid "Use only the wrapper cleanup phase with its original exact archives and unchanged fixture fingerprint. It never drops tables, uninstalls plugins or changes Core records."
+msgstr ""
+
+#: journeys.php:97
+msgid "Reviewed helper covers one public plugin row only; its target/namespace differs from the two HTTP recipes. Theme/private/schema cases need owner-coordinated prerequisites and network isolation. Exact satellite files must be verified externally."
+msgstr ""
+
+#: journeys.php:104
+msgid "Migrator stale/fresh Apply and exact cleanup"
+msgstr ""
+
+#: journeys.php:105
+msgid "Complete MIG-01 with the qualified satellite tuple. Install its harmless target through the reviewed consumer setup, block unrelated network work, and retain the real source fingerprint."
+msgstr ""
+
+#: journeys.php:106
+msgid "Review, then change provider selection or the fixture-owned source through an owner-approved procedure. Submit the old review; review afresh and explicitly Apply. Inspect a fresh request."
+msgstr ""
+
+#: journeys.php:107
+msgid "Stale review preserves source/destination state. Successful target-verified adoption is Disabled and removes only the exact unchanged source row. Webhook/uninstall responsibilities remain explicit."
+msgstr ""
+
+#: journeys.php:108
+msgid "Run wrapper readback/cleanup; changed rows refuse. Remove Core management through real controls if needed, without deleting genuine records/history or upstream plugins as a shortcut."
+msgstr ""
+
+#: journeys.php:109
+msgid "Public plugin helper only. Theme, active-source, credential and source-change variants remain manual/owner-coordinated; no current-Core private proof is inferred."
+msgstr ""
+
+#: journeys.php:116
+msgid "Replacement discovery and explicit adoption"
+msgstr ""
+
+#: journeys.php:117
+msgid "Start with bundled GitHub. Separately install one reviewed eligible replacement fixture; retain its exact artifact identity."
+msgstr ""
+
+#: journeys.php:118
+msgid "Activate it through WordPress, inspect GitHub pending adoption, and approve or decline using Core’s actual form."
+msgstr ""
+
+#: journeys.php:119
+msgid "Activation alone grants no selection or credential access. Actual implementation identity, non-packaged status and explicit consent remain visible."
+msgstr ""
+
+#: journeys.php:120
+msgid "Return explicitly to bundled through supported controls before deactivating/removing only the unchanged fixture plugin."
+msgstr ""
+
+#: journeys.php:121
+msgid "Administrator/activate_plugins. Reviewed external replacement fixture; global provider changes belong to the acceptance owner, not this selector."
+msgstr ""
+
+#: journeys.php:128
+msgid "Replacement retained-credential consent"
+msgstr ""
+
+#: journeys.php:129
+msgid "Prepare compatible and incompatible synthetic profiles/constants through the approved disposable-site procedure. Preserve pre-existing credentials."
+msgstr ""
+
+#: journeys.php:130
+msgid "Inspect adoption while withholding reuse consent, then approve compatible reuse explicitly. Reload in a fresh request."
+msgstr ""
+
+#: journeys.php:131
+msgid "No silent conversion/substitution or secret display. Actionable incompatibility guidance; reuse approval remains distinct from Blueprint credential import."
+msgstr ""
+
+#: journeys.php:132
+msgid "Restore selection explicitly; remove only unchanged test-owned profiles through real controls after their consumers are detached."
+msgstr ""
+
+#: journeys.php:133
+msgid "Manual synthetic credential setup, reviewed replacement artifact and administrator/activate_plugins. No real credential material."
+msgstr ""
+
+#: journeys.php:140
+msgid "Replacement unavailable, conflict and stale form"
+msgstr ""
+
+#: journeys.php:141
+msgid "Use separately reviewed replacement fixtures and genuine supported selection/adoption. Keep a real adoption form open for the stale trial."
+msgstr ""
+
+#: journeys.php:142
+msgid "Deactivate the selected fixture; separately test its reviewed incompatible/multiple-candidate configurations and submit the older form."
+msgstr ""
+
+#: journeys.php:143
+msgid "Visible unavailable/conflict and specific safe refusal. No bundled fallback, credential disclosure or package mutation under unsupported authority."
+msgstr ""
+
+#: journeys.php:144
+msgid "Restore the exact fixture or explicitly select bundled using current Core consent. Never edit provider options to manufacture availability."
+msgstr ""
+
+#: journeys.php:145
+msgid "Manual reviewed external fixture variants and administrator/activate_plugins. Selecting this recipe does not create a conflict."
+msgstr ""
+
+#: journeys.php:152
+msgid "Replacement switching and return to bundled"
+msgstr ""
+
+#: journeys.php:153
+msgid "Use reviewed A/B replacements with genuinely managed disposable targets and an actual reviewed/queued operation. Qualify Bitbucket separately if testing independence."
+msgstr ""
+
+#: journeys.php:154
+msgid "Switch A → B and explicitly return to bundled through Core. Inspect current status, stale Blueprint/Migrator forms and a fresh request."
+msgstr ""
+
+#: journeys.php:155
+msgid "Package identity remains intact. Old work cannot deploy under new authority; no automatic queue replay is promised. Independently qualified Bitbucket remains separate."
+msgstr ""
+
+#: journeys.php:156
+msgid "Restore approved selection through supported consent and allow real in-flight work to reach a safe outcome before removing fixtures."
+msgstr ""
+
+#: journeys.php:157
+msgid "Administrator/activate_plugins; authorized provider transitions and real queued state. This recipe never inserts queue/history records."
+msgstr ""
+
+#: journeys.php:164
+msgid "Healthy package-list recovery absence"
+msgstr ""
+
+#: journeys.php:165
+msgid "Use normal setup for harmless managed plugin/theme targets; compare empty, populated and filtered lists. Unavailable-provider state needs a supported owner-approved transition."
+msgstr ""
+
+#: journeys.php:166
+msgid "Open managed lists and ordinary package settings at desktop/narrow widths and with keyboard navigation."
+msgstr ""
+
+#: journeys.php:167
+msgid "No routine Recover package management/removal invitation. Missing provider is not damaged settings. Deliberate Stop managing remains distinct from deleting installed files."
+msgstr ""
+
+#: journeys.php:168
+msgid "Reset selection; only ordinary explicit cleanup of unchanged disposable targets, with genuine settings/history preserved."
+msgstr ""
+
+#: journeys.php:169
+msgid "Plugin and theme. Administrator plus update_plugins/update_themes for the applicable real action."
+msgstr ""
+
+#: journeys.php:176
+msgid "Damaged settings and contextual removal review"
+msgstr ""
+
+#: journeys.php:177
+msgid "Requires the recovery owner’s approved fault/restore procedure for one exact fixture-owned management record, with full preimage, token and installed fingerprint. No fault mutator is provided here."
+msgstr ""
+
+#: journeys.php:178
+msgid "Open the actual affected list/detail route and follow its contextual Review management removal. Separately try malformed/empty/array/oversize navigation without changing records."
+msgstr ""
+
+#: journeys.php:179
+msgid "Honest settings-read failure, no misleading empty-state onboarding, and no diagnosis/removal invitation merely from bad navigation. Opening review changes nothing."
+msgstr ""
+
+#: journeys.php:180
+msgid "Restore only an unchanged owned fault postimage using the approved conditional procedure. Refuse changed/protected/in-flight targets; never restore global snapshots or remove locks."
+msgstr ""
+
+#: journeys.php:181
+msgid "Plugin and theme. Manual owner-approved fault custody remains required; this selector does not corrupt settings."
+msgstr ""
+
+#: journeys.php:188
+msgid "Emergency Stop managing review"
+msgstr ""
+
+#: journeys.php:189
+msgid "Install and normally link the harmless exact target. Use the fixed emergency review route below; damaged-inventory trials additionally require REC-02 custody."
+msgstr ""
+
+#: journeys.php:190
+msgid "Open the pre-hydration plugin/theme removal review. Inspect retained-files/data/activation/history/credentials explanation, required confirmation and keyboard labels."
+msgstr ""
+
+#: journeys.php:191
+msgid "Stop managing an installed package names the exact target/lifetime. Opening/reviewing makes no change; nonce and real row/installed binding remain Core-owned."
+msgstr ""
+
+#: journeys.php:192
+msgid "Leave without confirming, then verify original state in a fresh request. No state-reset operation is needed for navigation."
+msgstr ""
+
+#: journeys.php:193
+msgid "Plugin and theme; real update_plugins/update_themes capability. Recovery availability requires current eligible state, never navigation alone."
+msgstr ""
+
+#: journeys.php:200
+msgid "Refused or stale management removal"
+msgstr ""
+
+#: journeys.php:201
+msgid "Open a real removal review for an exact fixture-owned target. Record identity/preimage before an owner-approved installed-file or record change."
+msgstr ""
+
+#: journeys.php:202
+msgid "Submit the stale review. Separately inspect approved invalid-token/source/ambiguous identity, unavailable-storage and real queued/running/unresolved-work cases."
+msgstr ""
+
+#: journeys.php:203
+msgid "Current safe refusal and useful next action, no silent removal or identity repair, and no generic SQL/schema-error invitation. Fresh review is required after a snapshot change."
+msgstr ""
+
+#: journeys.php:204
+msgid "Restore only unchanged owned postimages under approved custody; leave protection/work state to actual Core recovery. Never delete processes/locks or real records."
+msgstr ""
+
+#: journeys.php:205
+msgid "Plugin and theme. Manual owner-approved failure prerequisites; selector does not fabricate database, queue or storage failures."
+msgstr ""
+
+#: journeys.php:212
+msgid "Management-only removal and optional re-link"
+msgstr ""
+
+#: journeys.php:213
+msgid "Normally link an exact harmless installed target. Capture its files/activation/data, management lifetime and unrelated state before opening the real removal review."
+msgstr ""
+
+#: journeys.php:214
+msgid "Explicitly confirm Stop managing through Core. Inspect authoritative fresh state; optionally follow Link the package again through ordinary validated adoption."
+msgstr ""
+
+#: journeys.php:215
+msgid "Only the confirmed management record is removed. Files, activation, data, shared credentials, genuine history and unrelated records remain. Re-link creates a new lifetime under normal policy/consent, not repair/rollback/restoration."
+msgstr ""
+
+#: journeys.php:216
+msgid "Use ordinary explicit cleanup only for unchanged owned targets. Do not directly unlink SQL or re-adopt behind the action under test."
+msgstr ""
+
+#: journeys.php:217
+msgid "Plugin and theme. Explicit action consent plus real update_plugins/update_themes capability and eligible unprotected target."
+msgstr ""
+
+#: journeys.php:224
+msgid "Interrupted native installation recovery"
+msgstr ""
+
+#: journeys.php:225
+msgid "Requires a reviewed controlled interruption during an actual disposable-target native install, with exclusive owner custody. No marker, lock or uncertain outcome is seeded here."
+msgstr ""
+
+#: journeys.php:226
+msgid "Open GitHub’s real protected recovery screen. Inspect stopped-process/target-removal confirmations and occupied-lock refusal; perform only supported readback/clear-block/retry steps."
+msgstr ""
+
+#: journeys.php:227
+msgid "Uncertainty is never successful adoption. Protection remains until authoritative checks permit completion. This differs from management-only removal and does not promise files are retained."
+msgstr ""
+
+#: journeys.php:228
+msgid "Complete real Core recovery under the owner’s procedure. Never seed/erase markers, delete locks or invoke a parallel recovery service."
+msgstr ""
+
+#: journeys.php:229
+msgid "Plugin/theme where supported. Administrator/activate_plugins and relevant installation capability. Manual real interruption required; pending until actually executed."
+msgstr ""
+
+#: journeys.php:236
+msgid "Deployment needs attention and reconciliation"
+msgstr ""
+
+#: journeys.php:237
+msgid "Requires a real bounded uncertain/stopped-worker deployment to the harmless target. Retain the actual attempt/correlation identity; no Activity row is inserted by this fixture."
+msgstr ""
+
+#: journeys.php:238
+msgid "Open Activity, select the genuine attempt and inspect reconciliation controls, stopped-process confirmation and current-state verification."
+msgstr ""
+
+#: journeys.php:239
+msgid "Genuine protection/history and supported authoritative reconciliation. A navigation link or screenshot alone is not a reconciliation pass."
+msgstr ""
+
+#: journeys.php:240
+msgid "Use real supported reconciliation and owner-controlled cleanup. Preserve journal history, retention, locks and unrelated records."
+msgstr ""
+
+#: journeys.php:241
+msgid "Plugin and theme where supported. Manual real attempt required; do not fabricate an attempt ID or correlation reference."
+msgstr ""
+
+#: journeys.php:260
+msgid "This connected journey needs the feature-bearing Core with Blueprint V2 and Portability API 4. Use a newly qualified exact candidate pair or a reviewed compatible release."
+msgstr ""
+
+#: journeys.php:263
+msgid "The paired Core does not expose the required provider-selection capability."
+msgstr ""
+
+#: journeys.php:266
+msgid "The paired Core does not expose management-removal review."
+msgstr ""
+
+#: journeys.php:269
+msgid "The required Migrator composition is unavailable. Install and externally verify the qualified Migrator artifact and helper; a detected handler alone is not byte-identity evidence."
+msgstr ""
+
+#: journeys.php:281
+msgid "Connected walkthroughs"
+msgstr ""
+
+#: journeys.php:281
+msgid "Selecting a recipe changes only fixture-owned selection and synthetic HTTP responses. It does not create provider conflicts, corrupt settings, seed retained rows, interrupt workers or mark acceptance passed. Follow each prerequisite and the packaged connected-walkthroughs.md guide."
+msgstr ""
+
+#: journeys.php:289
+msgid "Applicability and prerequisites"
+msgstr ""
+
+#: journeys.php:290
+msgid "Setup"
+msgstr ""
+
+#: journeys.php:291
+msgid "Open screen and act"
+msgstr ""
+
+#: journeys.php:292
+msgid "Expected result"
+msgstr ""
+
+#: journeys.php:293
+msgid "Reset and cleanup"
+msgstr ""
+
+#: journeys.php:307
+msgid "Inert Blueprint downloads"
+msgstr ""
+
+#: journeys.php:307
+msgid "Credential-free V2 input archives for the real Transporter upload. Unsupported/malformed files are intentional refusal trials. No archive contains provider plugins, secrets or installed-state proof."
+msgstr ""
+
+#: journeys.php:336
+msgid "Open Transporter"
+msgstr ""
+
+#: journeys.php:339
+msgid "Open GitHub provider"
+msgstr ""
+
+#: journeys.php:342
+msgid "Open Activity and choose the genuine attempt"
+msgstr ""
+
+#: journeys.php:346
+msgid "Review fixture plugin management removal"
+msgstr ""
+
+#: journeys.php:347
+msgid "Review fixture theme management removal"
+msgstr ""
+
+#: journeys.php:351
+msgid "Managed plugins"
+msgstr ""
+
+#: journeys.php:352
+msgid "Managed themes"
 msgstr ""
 
 #: pairing.php:156
@@ -198,165 +734,165 @@ msgstr ""
 msgid "A marker alone does not prove installed byte equality. Candidate guards rehash the extracted Core and Scenarios files on every request; the pairing metadata itself is excluded from its self-hash. Verify both ZIP checksums against the handover before installation."
 msgstr ""
 
-#: ran-booster-scenarios.php:89
+#: ran-booster-scenarios.php:90
 msgid "This fixture requires PHP 8.4 or 8.5. Other PHP versions are not qualified."
 msgstr ""
 
-#: ran-booster-scenarios.php:92
+#: ran-booster-scenarios.php:93
 msgid "Set RAN_BOOSTER_SCENARIOS_DISPOSABLE to true on a disposable site."
 msgstr ""
 
-#: ran-booster-scenarios.php:95
+#: ran-booster-scenarios.php:96
 msgid "Only local and development WordPress environments are supported."
 msgstr ""
 
-#: ran-booster-scenarios.php:99
+#: ran-booster-scenarios.php:100
 msgid "The fixture compatibility manifest is missing, invalid, or does not match the plugin version."
 msgstr ""
 
-#: ran-booster-scenarios.php:107
+#: ran-booster-scenarios.php:108
 msgid "Active Core APIs do not match the fixture compatibility manifest."
 msgstr ""
 
 #. translators: %s: Required Booster Core version.
-#: ran-booster-scenarios.php:113
+#: ran-booster-scenarios.php:114
 #, php-format
 msgid "Install exactly Core %s in wp-content/plugins/ran-booster."
 msgstr ""
 
 #. translators: %s: Required Booster Core version.
-#: ran-booster-scenarios.php:120
+#: ran-booster-scenarios.php:121
 #, php-format
 msgid "Install the exact paired Core %s ZIP, including its build marker."
 msgstr ""
 
 #. translators: %s: Required Booster Core version.
-#: ran-booster-scenarios.php:123
+#: ran-booster-scenarios.php:124
 #, php-format
 msgid "Install the exact published Core %s ZIP, including its release marker."
 msgstr ""
 
-#: ran-booster-scenarios.php:185
+#: ran-booster-scenarios.php:186
 msgid "Unknown fixture archive."
 msgstr ""
 
-#: ran-booster-scenarios.php:189
+#: ran-booster-scenarios.php:190
 msgid "Bundled archive missing."
 msgstr ""
 
-#: ran-booster-scenarios.php:194
+#: ran-booster-scenarios.php:195
 msgid "Bundled archive unreadable."
 msgstr ""
 
-#: ran-booster-scenarios.php:210
+#: ran-booster-scenarios.php:211
 msgid "Archive streaming requires a regular pre-created file directly in the WordPress temp directory."
 msgstr ""
 
-#: ran-booster-scenarios.php:255
+#: ran-booster-scenarios.php:256
 msgid "Synthetic target blocked: fixture disabled, incompatible or unsupported request."
 msgstr ""
 
-#: ran-booster-scenarios.php:388
+#: ran-booster-scenarios.php:393
 msgid "Build or reinstall the fixture with its bundled archives before testing release offers."
 msgstr ""
 
-#: ran-booster-scenarios.php:422
+#: ran-booster-scenarios.php:427
 msgid "Administrator access required."
 msgstr ""
 
-#: ran-booster-scenarios.php:425
+#: ran-booster-scenarios.php:430
 msgid "POST required."
 msgstr ""
 
-#: ran-booster-scenarios.php:477
-#: ran-booster-scenarios.php:559
+#: ran-booster-scenarios.php:485
+#: ran-booster-scenarios.php:572
 msgid "Booster scenarios"
 msgstr ""
 
 #. translators: 1: Fixture plugin version, 2: Required Booster Core version.
-#: ran-booster-scenarios.php:480
+#: ran-booster-scenarios.php:488
 #, php-format
 msgid "Fixture %1$s · Core %2$s"
 msgstr ""
 
-#: ran-booster-scenarios.php:484
+#: ran-booster-scenarios.php:492
 msgid "Candidate file sets match this fixed pairing. Walkthrough acceptance remains separate."
 msgstr ""
 
-#: ran-booster-scenarios.php:485
+#: ran-booster-scenarios.php:493
 msgid "Compatible disposable environment."
 msgstr ""
 
-#: ran-booster-scenarios.php:487
+#: ran-booster-scenarios.php:495
 msgid "Selection persists across cron and browser requests."
 msgstr ""
 
-#: ran-booster-scenarios.php:490
+#: ran-booster-scenarios.php:498
 msgid "Expected:"
 msgstr ""
 
-#: ran-booster-scenarios.php:494
+#: ran-booster-scenarios.php:502
 msgid "Scenario"
 msgstr ""
 
-#: ran-booster-scenarios.php:498
+#: ran-booster-scenarios.php:506
 msgid "Target"
 msgstr ""
 
-#: ran-booster-scenarios.php:500
-#: ran-booster-scenarios.php:525
+#: ran-booster-scenarios.php:508
+#: ran-booster-scenarios.php:535
 msgid "Both targets"
 msgstr ""
 
-#: ran-booster-scenarios.php:501
-#: ran-booster-scenarios.php:526
+#: ran-booster-scenarios.php:509
+#: ran-booster-scenarios.php:536
 msgid "Plugin"
 msgstr ""
 
-#: ran-booster-scenarios.php:502
-#: ran-booster-scenarios.php:527
+#: ran-booster-scenarios.php:510
+#: ran-booster-scenarios.php:537
 msgid "Theme"
 msgstr ""
 
-#: ran-booster-scenarios.php:506
+#: ran-booster-scenarios.php:514
 msgid "Select / restart"
 msgstr ""
 
-#: ran-booster-scenarios.php:506
+#: ran-booster-scenarios.php:514
 msgid "Advance to stage 1"
 msgstr ""
 
-#: ran-booster-scenarios.php:506
+#: ran-booster-scenarios.php:514
 msgid "Disable / reset fixture selection"
 msgstr ""
 
-#: ran-booster-scenarios.php:507
+#: ran-booster-scenarios.php:515
 msgid "Use only ran-booster-scenarios/scenario-plugin and ran-booster-scenarios/scenario-theme. No real credentials needed. Install the documented local stub targets first. Only the bundled harmless plugin/theme archives can be installed through normal WordPress controls. These prove synthetic installation, not real GitHub publishing."
 msgstr ""
 
-#: ran-booster-scenarios.php:508
+#: ran-booster-scenarios.php:516
 msgid "After changing stage, use Booster’s normal refresh action or cron; existing caches and history are intentionally preserved. Reset removes only fixture selection, not Booster records or history. Logging stays under Booster’s normal settings."
 msgstr ""
 
-#: ran-booster-scenarios.php:508
+#: ran-booster-scenarios.php:516
 msgid "Test routes"
 msgstr ""
 
 #. translators: 1: Scenario label, 2: Manual stage number, 3: Target label.
-#: ran-booster-scenarios.php:530
+#: ran-booster-scenarios.php:540
 #, php-format
 msgid "Selected: %1$s; stage: %2$d; target: %3$s."
 msgstr ""
 
 #. translators: 1: Scenario label, 2: Manual stage number, 3: Target label.
-#: ran-booster-scenarios.php:530
+#: ran-booster-scenarios.php:540
 msgid "disabled"
 msgstr ""
 
-#: ran-booster-scenarios.php:542
+#: ran-booster-scenarios.php:555
 msgid "Booster test fixture installed."
 msgstr ""
 
-#: ran-booster-scenarios.php:542
+#: ran-booster-scenarios.php:555
 msgid "Scenario controls"
 msgstr ""
