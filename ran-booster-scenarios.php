@@ -20,21 +20,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once __DIR__ . '/catalog.php';
+require_once __DIR__ . '/pairing.php';
 
 /**
  * Read the reviewed compatibility contract without accepting partial or malformed data.
  *
  * @since 0.1.0
- * @return array{schema_version: int, fixture_version: string, core_version: string, core_commit: string, core_zip_sha256: string, provider_api: int, addon_api: int, admin_interaction_api: int}|null Validated identity or null.
+ * @return array{schema_version: int, fixture_version: string, core_version: string, core_commit: string, core_zip_sha256: string, provider_api: int, addon_api: int, admin_interaction_api: int, pairing_mode?: string, candidate_metadata?: string}|null Validated identity or null.
  */
 function ran_booster_scenarios_compatibility(): ?array {
-	$file = __DIR__ . '/compatibility.json';
-	if ( ! is_file( $file ) || ! is_readable( $file ) ) {
-		return null;
-	}
-	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Read only this plugin's reviewed local compatibility manifest.
-	$bytes = file_get_contents( $file );
-	$data  = is_string( $bytes ) ? json_decode( $bytes, true ) : null;
+	$data = ran_booster_scenarios_pairing_json( __DIR__ . '/compatibility.json' );
 	if ( ! is_array( $data ) || 1 !== ( $data['schema_version'] ?? null ) ) {
 		return null;
 	}
@@ -52,7 +47,7 @@ function ran_booster_scenarios_compatibility(): ?array {
 		|| ( get_file_data( __FILE__, array( 'version' => 'Version' ), 'plugin' )['version'] ?? '' ) !== $data['fixture_version'] ) {
 		return null;
 	}
-	return array(
+	$result = array(
 		'schema_version'        => 1,
 		'fixture_version'       => $data['fixture_version'],
 		'core_version'          => $data['core_version'],
@@ -62,6 +57,14 @@ function ran_booster_scenarios_compatibility(): ?array {
 		'addon_api'             => $data['addon_api'],
 		'admin_interaction_api' => $data['admin_interaction_api'],
 	);
+	if ( array_key_exists( 'pairing_mode', $data ) || array_key_exists( 'candidate_metadata', $data ) || file_exists( __DIR__ . '/candidate-pairing.json' ) ) {
+		if ( 'candidate' !== ( $data['pairing_mode'] ?? null ) || 'candidate-pairing.json' !== ( $data['candidate_metadata'] ?? null ) ) {
+			return null;
+		}
+		$result['pairing_mode']       = 'candidate';
+		$result['candidate_metadata'] = 'candidate-pairing.json';
+	}
+	return $result;
 }
 
 /**
@@ -76,7 +79,7 @@ function ran_booster_scenarios_supports_php( int $version_id ): bool {
 }
 
 /**
- * Re-evaluate the runtime, disposable-site and exact release guards for every HTTP request.
+ * Re-evaluate the runtime, disposable-site and fixed pairing on every request.
  *
  * @since 0.1.0
  * @return string Empty when compatible; otherwise an administrator-facing reason.
@@ -110,11 +113,17 @@ function ran_booster_scenarios_guard(): string {
 		return sprintf( __( 'Install exactly Core %s in wp-content/plugins/ran-booster.', 'ran-booster-scenarios' ), $compatibility['core_version'] );
 	}
 	$marker_file = WP_PLUGIN_DIR . '/ran-booster/ran-booster-release.json';
-	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Read the exact local published release marker; never remote content.
-	$marker = is_file( $marker_file ) && is_readable( $marker_file ) ? json_decode( (string) file_get_contents( $marker_file ), true ) : null;
+	$marker      = ran_booster_scenarios_pairing_json( $marker_file );
 	if ( ! is_array( $marker ) || 'ran-booster-core-release' !== ( $marker['schema'] ?? null ) || 1 !== ( $marker['schema_version'] ?? null ) || ( $marker['version'] ?? null ) !== $compatibility['core_version'] || ( $marker['commit'] ?? null ) !== $compatibility['core_commit'] ) {
+		if ( 'candidate' === ( $compatibility['pairing_mode'] ?? null ) ) {
+			/* translators: %s: Required Booster Core version. */
+			return sprintf( __( 'Install the exact paired Core %s ZIP, including its build marker.', 'ran-booster-scenarios' ), $compatibility['core_version'] );
+		}
 		/* translators: %s: Required Booster Core version. */
 		return sprintf( __( 'Install the exact published Core %s ZIP, including its release marker.', 'ran-booster-scenarios' ), $compatibility['core_version'] );
+	}
+	if ( 'candidate' === ( $compatibility['pairing_mode'] ?? null ) ) {
+		return ran_booster_scenarios_candidate_guard( $compatibility );
 	}
 	return '';
 }
@@ -470,7 +479,11 @@ function ran_booster_scenarios_page(): void {
 		/* translators: 1: Fixture plugin version, 2: Required Booster Core version. */
 		echo '<p>' . esc_html( sprintf( __( 'Fixture %1$s · Core %2$s', 'ran-booster-scenarios' ), $compatibility['fixture_version'], $compatibility['core_version'] ) ) . '</p>';
 	}
-	echo '<p>' . esc_html( '' !== $guard ? $guard : __( 'Compatible disposable environment.', 'ran-booster-scenarios' ) ) . '</p>';
+	ran_booster_scenarios_pairing_status( $compatibility );
+	$success = 'candidate' === ( $compatibility['pairing_mode'] ?? null )
+		? __( 'Candidate file sets match this fixed pairing. Walkthrough acceptance remains separate.', 'ran-booster-scenarios' )
+		: __( 'Compatible disposable environment.', 'ran-booster-scenarios' );
+	echo '<p>' . esc_html( '' !== $guard ? $guard : $success ) . '</p>';
 	echo '<p>' . esc_html( ran_booster_scenarios_status() ) . ' ' . esc_html( __( 'Selection persists across cron and browser requests.', 'ran-booster-scenarios' ) ) . '</p>';
 	$catalog = ran_booster_scenarios_catalog();
 	if ( isset( $catalog[ $state['scenario'] ] ) ) {

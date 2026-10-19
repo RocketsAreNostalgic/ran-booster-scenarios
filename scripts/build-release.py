@@ -83,6 +83,8 @@ def build(root: Path, destination: Path, commit: str | None = None) -> Path:
         if source.is_symlink():
             raise ValueError("Symlinks are not fixture inputs or archive destinations")
     compatibility = json.loads((root / "compatibility.json").read_text())
+    if (root / "candidate-pairing.json").exists() or "pairing_mode" in compatibility or "candidate_metadata" in compatibility:
+        raise ValueError("Candidate pairings cannot enter release promotion")
     version = (root / "version.txt").read_text().strip()
     if not re.fullmatch(r"\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?", version):
         raise ValueError("Invalid fixture version")
@@ -119,7 +121,10 @@ def build(root: Path, destination: Path, commit: str | None = None) -> Path:
         write_zip(seed, {name: data.replace(b"Version: 2.0.0", b"Version: 1.0.0") for name, data in files.items()})
         assets.append(seed)
     output = destination / f"{SLUG}-{version}-core-{core}.zip"
-    write_zip(output, {SLUG + "/" + path.relative_to(root).as_posix(): path.read_bytes() for path in package_files(root)})
+    inputs = package_files(root)
+    if any(path.name == "candidate-pairing.json" for path in inputs):
+        raise ValueError("Candidate metadata cannot enter release promotion")
+    write_zip(output, {SLUG + "/" + path.relative_to(root).as_posix(): path.read_bytes() for path in inputs})
     assets.append(output)
     for archive in list(assets):
         checksum = archive.with_suffix(".zip.sha256")

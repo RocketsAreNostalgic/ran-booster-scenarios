@@ -152,155 +152,211 @@ msgstr ""
 msgid "WordPress updates"
 msgstr ""
 
-#: ran-booster-scenarios.php:86
-msgid "This fixture requires PHP 8.4 or 8.5. Other PHP versions are not qualified."
+#: pairing.php:156
+msgid "Candidate pairing metadata is missing or invalid. Install a newly qualified matched pair."
+msgstr ""
+
+#: pairing.php:159
+msgid "Unreleased candidates require RAN_BOOSTER_SELF_UPDATE_MODE set to disabled on this disposable site."
+msgstr ""
+
+#: pairing.php:164
+msgid "Candidate file verification maps are invalid."
+msgstr ""
+
+#: pairing.php:167
+msgid "Installed Core files differ from the paired candidate artifact, or cannot be verified. Reinstall the exact Core ZIP."
+msgstr ""
+
+#: pairing.php:170
+msgid "Installed Scenarios files differ from the paired candidate package, or cannot be verified. Reinstall its exact ZIP."
+msgstr ""
+
+#: pairing.php:183
+msgid "Unreleased candidate"
+msgstr ""
+
+#: pairing.php:183
+msgid "Released pairing"
+msgstr ""
+
+#: pairing.php:188
+msgid "unavailable"
+msgstr ""
+
+#. translators: 1: Expected Core commit abbreviation, 2: Detected Core marker commit abbreviation.
+#: pairing.php:190
+#, php-format
+msgid "Expected Core: %1$s · Detected marker: %2$s"
+msgstr ""
+
+#: pairing.php:200
+msgid "Pairing details"
+msgstr ""
+
+#: pairing.php:200
+msgid "A marker alone does not prove installed byte equality. Candidate guards rehash the extracted Core and Scenarios files on every request; the pairing metadata itself is excluded from its self-hash. Verify both ZIP checksums against the handover before installation."
 msgstr ""
 
 #: ran-booster-scenarios.php:89
-msgid "Set RAN_BOOSTER_SCENARIOS_DISPOSABLE to true on a disposable site."
+msgid "This fixture requires PHP 8.4 or 8.5. Other PHP versions are not qualified."
 msgstr ""
 
 #: ran-booster-scenarios.php:92
+msgid "Set RAN_BOOSTER_SCENARIOS_DISPOSABLE to true on a disposable site."
+msgstr ""
+
+#: ran-booster-scenarios.php:95
 msgid "Only local and development WordPress environments are supported."
 msgstr ""
 
-#: ran-booster-scenarios.php:96
+#: ran-booster-scenarios.php:99
 msgid "The fixture compatibility manifest is missing, invalid, or does not match the plugin version."
 msgstr ""
 
-#: ran-booster-scenarios.php:104
+#: ran-booster-scenarios.php:107
 msgid "Active Core APIs do not match the fixture compatibility manifest."
 msgstr ""
 
 #. translators: %s: Required Booster Core version.
-#: ran-booster-scenarios.php:110
+#: ran-booster-scenarios.php:113
 #, php-format
 msgid "Install exactly Core %s in wp-content/plugins/ran-booster."
 msgstr ""
 
 #. translators: %s: Required Booster Core version.
-#: ran-booster-scenarios.php:117
+#: ran-booster-scenarios.php:120
+#, php-format
+msgid "Install the exact paired Core %s ZIP, including its build marker."
+msgstr ""
+
+#. translators: %s: Required Booster Core version.
+#: ran-booster-scenarios.php:123
 #, php-format
 msgid "Install the exact published Core %s ZIP, including its release marker."
 msgstr ""
 
-#: ran-booster-scenarios.php:176
+#: ran-booster-scenarios.php:185
 msgid "Unknown fixture archive."
 msgstr ""
 
-#: ran-booster-scenarios.php:180
+#: ran-booster-scenarios.php:189
 msgid "Bundled archive missing."
 msgstr ""
 
-#: ran-booster-scenarios.php:185
+#: ran-booster-scenarios.php:194
 msgid "Bundled archive unreadable."
 msgstr ""
 
-#: ran-booster-scenarios.php:201
+#: ran-booster-scenarios.php:210
 msgid "Archive streaming requires a regular pre-created file directly in the WordPress temp directory."
 msgstr ""
 
-#: ran-booster-scenarios.php:246
+#: ran-booster-scenarios.php:255
 msgid "Synthetic target blocked: fixture disabled, incompatible or unsupported request."
 msgstr ""
 
-#: ran-booster-scenarios.php:379
+#: ran-booster-scenarios.php:388
 msgid "Build or reinstall the fixture with its bundled archives before testing release offers."
 msgstr ""
 
-#: ran-booster-scenarios.php:413
+#: ran-booster-scenarios.php:422
 msgid "Administrator access required."
 msgstr ""
 
-#: ran-booster-scenarios.php:416
+#: ran-booster-scenarios.php:425
 msgid "POST required."
 msgstr ""
 
-#: ran-booster-scenarios.php:468
-#: ran-booster-scenarios.php:546
+#: ran-booster-scenarios.php:477
+#: ran-booster-scenarios.php:559
 msgid "Booster scenarios"
 msgstr ""
 
 #. translators: 1: Fixture plugin version, 2: Required Booster Core version.
-#: ran-booster-scenarios.php:471
+#: ran-booster-scenarios.php:480
 #, php-format
 msgid "Fixture %1$s · Core %2$s"
 msgstr ""
 
-#: ran-booster-scenarios.php:473
-msgid "Compatible disposable environment."
-msgstr ""
-
-#: ran-booster-scenarios.php:474
-msgid "Selection persists across cron and browser requests."
-msgstr ""
-
-#: ran-booster-scenarios.php:477
-msgid "Expected:"
-msgstr ""
-
-#: ran-booster-scenarios.php:481
-msgid "Scenario"
+#: ran-booster-scenarios.php:484
+msgid "Candidate file sets match this fixed pairing. Walkthrough acceptance remains separate."
 msgstr ""
 
 #: ran-booster-scenarios.php:485
-msgid "Target"
+msgid "Compatible disposable environment."
 msgstr ""
 
 #: ran-booster-scenarios.php:487
-#: ran-booster-scenarios.php:512
-msgid "Both targets"
+msgid "Selection persists across cron and browser requests."
 msgstr ""
 
-#: ran-booster-scenarios.php:488
-#: ran-booster-scenarios.php:513
-msgid "Plugin"
-msgstr ""
-
-#: ran-booster-scenarios.php:489
-#: ran-booster-scenarios.php:514
-msgid "Theme"
-msgstr ""
-
-#: ran-booster-scenarios.php:493
-msgid "Select / restart"
-msgstr ""
-
-#: ran-booster-scenarios.php:493
-msgid "Advance to stage 1"
-msgstr ""
-
-#: ran-booster-scenarios.php:493
-msgid "Disable / reset fixture selection"
+#: ran-booster-scenarios.php:490
+msgid "Expected:"
 msgstr ""
 
 #: ran-booster-scenarios.php:494
+msgid "Scenario"
+msgstr ""
+
+#: ran-booster-scenarios.php:498
+msgid "Target"
+msgstr ""
+
+#: ran-booster-scenarios.php:500
+#: ran-booster-scenarios.php:525
+msgid "Both targets"
+msgstr ""
+
+#: ran-booster-scenarios.php:501
+#: ran-booster-scenarios.php:526
+msgid "Plugin"
+msgstr ""
+
+#: ran-booster-scenarios.php:502
+#: ran-booster-scenarios.php:527
+msgid "Theme"
+msgstr ""
+
+#: ran-booster-scenarios.php:506
+msgid "Select / restart"
+msgstr ""
+
+#: ran-booster-scenarios.php:506
+msgid "Advance to stage 1"
+msgstr ""
+
+#: ran-booster-scenarios.php:506
+msgid "Disable / reset fixture selection"
+msgstr ""
+
+#: ran-booster-scenarios.php:507
 msgid "Use only ran-booster-scenarios/scenario-plugin and ran-booster-scenarios/scenario-theme. No real credentials needed. Install the documented local stub targets first. Only the bundled harmless plugin/theme archives can be installed through normal WordPress controls. These prove synthetic installation, not real GitHub publishing."
 msgstr ""
 
-#: ran-booster-scenarios.php:495
+#: ran-booster-scenarios.php:508
 msgid "After changing stage, use Booster’s normal refresh action or cron; existing caches and history are intentionally preserved. Reset removes only fixture selection, not Booster records or history. Logging stays under Booster’s normal settings."
 msgstr ""
 
-#: ran-booster-scenarios.php:495
+#: ran-booster-scenarios.php:508
 msgid "Test routes"
 msgstr ""
 
 #. translators: 1: Scenario label, 2: Manual stage number, 3: Target label.
-#: ran-booster-scenarios.php:517
+#: ran-booster-scenarios.php:530
 #, php-format
 msgid "Selected: %1$s; stage: %2$d; target: %3$s."
 msgstr ""
 
 #. translators: 1: Scenario label, 2: Manual stage number, 3: Target label.
-#: ran-booster-scenarios.php:517
+#: ran-booster-scenarios.php:530
 msgid "disabled"
 msgstr ""
 
-#: ran-booster-scenarios.php:529
+#: ran-booster-scenarios.php:542
 msgid "Booster test fixture installed."
 msgstr ""
 
-#: ran-booster-scenarios.php:529
+#: ran-booster-scenarios.php:542
 msgid "Scenario controls"
 msgstr ""

@@ -8,6 +8,7 @@ parameters:
     paths:
         - ran-booster-scenarios.php
         - catalog.php
+        - pairing.php
         - samples
         - scripts
         - tests

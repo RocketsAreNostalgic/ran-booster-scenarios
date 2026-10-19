@@ -32,6 +32,12 @@ host-dependent composer check to fit that caller. Shared standards are still
 consumed through the locked packages; the terminal quality check requires both
 native PHP lanes. This CI specialization is part of independent PR review.
 
+Candidate acceptance is a separate manual Quality route: an acquisition job
+verifies the exact Core producer/run/attempt/artifact; a credential-separated job
+builds deterministic fixed Scenarios pairing output and installs under PHP8.5.
+It emits no promotion manifest. Canonical PR/main released-host checks retain
+both existing PHP lanes and release custody. See candidate-acceptance.md.
+
 The copied WordPress skills have narrow local portability fixes: repository-root
 commands use `.codex/skills/`, and plugin detectors accept conventional starred
 PHP docblock headers as well as unstarred headers. Canonical tests exercise both

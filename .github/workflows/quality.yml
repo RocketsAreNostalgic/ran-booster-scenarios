@@ -5,6 +5,27 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      core_commit:
+        description: 'Candidate only: exact Core source SHA (empty keeps released Quality)'
+        type: string
+        default: ''
+      core_run_id:
+        description: 'Exact successful Core Quality run ID'
+        type: string
+        default: ''
+      core_run_attempt:
+        description: 'Exact Core run attempt'
+        type: string
+        default: ''
+      core_artifact_id:
+        description: 'Exact Core runtime artifact ID'
+        type: string
+        default: ''
+      core_artifact_digest:
+        description: 'GitHub artifact sha256:<digest>'
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -15,6 +36,7 @@ concurrency:
 
 jobs:
   project:
+    if: github.event_name != 'workflow_dispatch' || inputs.core_commit == ''
     name: Source and installed proof / PHP ${{ matrix.php }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
@@ -117,13 +139,36 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
+  candidate:
+    if: github.event_name == 'workflow_dispatch' && inputs.core_commit != ''
+    permissions:
+      contents: read
+      actions: read
+    uses: ./.github/workflows/candidate-pairing.yml
+    with:
+      core_commit: ${{ inputs.core_commit }}
+      core_run_id: ${{ inputs.core_run_id }}
+      core_run_attempt: ${{ inputs.core_run_attempt }}
+      core_artifact_id: ${{ inputs.core_artifact_id }}
+      core_artifact_digest: ${{ inputs.core_artifact_digest }}
+
   quality:
-    name: quality
+    # Candidate success must never satisfy/replace the required canonical check.
+    name: ${{ github.event_name == 'workflow_dispatch' && inputs.core_commit != '' && 'candidate pairing' || 'quality' }}
     if: ${{ always() }}
-    needs: [project]
+    needs: [project, candidate]
     runs-on: ubuntu-24.04
     steps:
       - name: Require source and installed matrix
         env:
           PROJECT_RESULT: ${{ needs.project.result }}
-        run: test "$PROJECT_RESULT" = success
+          CANDIDATE_RESULT: ${{ needs.candidate.result }}
+          CANDIDATE_REQUEST: ${{ github.event_name == 'workflow_dispatch' && inputs.core_commit != '' }}
+        run: |
+          if test "$CANDIDATE_REQUEST" = true; then
+            test "$PROJECT_RESULT" = skipped
+            test "$CANDIDATE_RESULT" = success
+          else
+            test "$PROJECT_RESULT" = success
+            test "$CANDIDATE_RESULT" = skipped
+          fi

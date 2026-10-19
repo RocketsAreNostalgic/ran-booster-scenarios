@@ -22,7 +22,7 @@ class ReleaseTest(unittest.TestCase):
         self.addCleanup(self.temporary.cleanup)
         self.root = Path(self.temporary.name) / "source"
         self.root.mkdir()
-        for name in ("version.txt", "compatibility.json", "ran-booster-scenarios.php", "catalog.php", "README.md", "CONTRIBUTING.md", "RELEASE.md", "readme.txt", "LICENSE", "LICENSE.starter", "release-contents.txt", ".release-please-manifest.json", "package.json"):
+        for name in ("version.txt", "compatibility.json", "ran-booster-scenarios.php", "catalog.php", "pairing.php", "README.md", "CONTRIBUTING.md", "RELEASE.md", "readme.txt", "LICENSE", "LICENSE.starter", "release-contents.txt", ".release-please-manifest.json", "package.json"):
             shutil.copy2(ROOT / name, self.root / name)
         shutil.copytree(ROOT / "samples", self.root / "samples")
         shutil.copytree(ROOT / "docs", self.root / "docs")

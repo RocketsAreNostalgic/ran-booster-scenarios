@@ -13,6 +13,11 @@ and Admin Interaction API3. Install Core's published ZIP, including its release
 marker, in `wp-content/plugins/ran-booster`. A matching version string alone is
 insufficient. A later Core release needs a reviewed fixture compatibility update.
 
+For **pre-release acceptance**, build a fixed **Unreleased candidate** pair from
+an exact qualified Core CI artifact and exact Scenarios commit. Follow the
+executable [candidate acceptance journey](docs/candidate-acceptance.md). It is
+separate from the published journey below and publishes neither plugin.
+
 ## Build and install
 
 From this repository root:
@@ -21,12 +26,11 @@ From this repository root:
 python3 scripts/build-release.py --output-dir build/release
 ```
 
-The source seed version is0.1.0; Release Please determines the first published version.
-The example filenames below follow that source seed.
+Release Please owns the fixture version (currently0.1.1).
 The output directory `build/release` contains three installable ZIPs
 and their SHA-256 checksum files:
 
-- `ran-booster-scenarios-0.1.0-core-1.0.0-beta.35.zip`: install and activate this plugin.
+- `ran-booster-scenarios-0.1.1-core-1.0.0-beta.35.zip`: install and activate this plugin.
 - `scenario-plugin-1.0.0.zip`: inert plugin target for update scenarios.
 - `scenario-theme-1.0.0.zip`: minimal theme target for update scenarios; it need not be active.
 
@@ -41,7 +45,8 @@ never included in Core's production ZIP.
 Development baseline: WordPress7.0+, PHP8.4–8.5, Composer2, Node24.21.0 and the
 exact pnpm11.13.1 packageManager. See [CONTRIBUTING.md](CONTRIBUTING.md) and
 [starter baseline mapping](docs/baseline.md). The test host is the verified
-published Core archive, not an arbitrary sibling checkout.
+published Core archive for ordinary Quality; the candidate workflow uses the
+separately verified exact CI artifact, never an arbitrary sibling checkout.
 
 On the disposable site only, add before WordPress loads:
 

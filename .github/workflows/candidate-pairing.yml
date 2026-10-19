@@ -1,0 +1,138 @@
+name: Candidate pairing
+
+on:
+  workflow_call:
+    inputs:
+      core_commit:
+        required: true
+        type: string
+      core_run_id:
+        required: true
+        type: string
+      core_run_attempt:
+        required: true
+        type: string
+      core_artifact_id:
+        required: true
+        type: string
+      core_artifact_digest:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  acquire:
+    name: Verify exact approved Core artifact
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Inspect artifact and producer without executing Core
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CORE_COMMIT: ${{ inputs.core_commit }}
+          CORE_RUN: ${{ inputs.core_run_id }}
+          CORE_ATTEMPT: ${{ inputs.core_run_attempt }}
+          CORE_ARTIFACT: ${{ inputs.core_artifact_id }}
+          CORE_DIGEST: ${{ inputs.core_artifact_digest }}
+          SCENARIOS_COMMIT: ${{ github.sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$SCENARIOS_COMMIT"
+          python3 scripts/core_candidate.py --repository RocketsAreNostalgic/ran-booster \
+            --commit "$CORE_COMMIT" --run-id "$CORE_RUN" --run-attempt "$CORE_ATTEMPT" \
+            --artifact-id "$CORE_ARTIFACT" --artifact-digest "$CORE_DIGEST" \
+            --output-dir build/core-candidate
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: verified-core-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/core-candidate/*
+          retention-days: 7
+          if-no-files-found: error
+
+  qualify:
+    name: Pair and install / PHP 8.5
+    needs: acquire
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: wordpress_test
+          MYSQL_ROOT_PASSWORD: root
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping --host=127.0.0.1 --user=root --password=root"
+          --health-interval=10s --health-timeout=5s --health-retries=10
+    env:
+      SCENARIOS_COMMIT: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: verified-core-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/core-candidate
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2.37.2
+        with:
+          php-version: '8.5'
+          extensions: mysqli, zip
+          tools: composer:v2, wp-cli:2.12.0
+          coverage: none
+      - name: Verify exact source and build reproducible candidate outputs
+        run: |
+          test "$(git rev-parse HEAD)" = "$SCENARIOS_COMMIT"
+          test "$(php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION;')" = '8.5'
+          test -z "${GH_TOKEN:-}"
+          python3 -m unittest discover -s tests -p 'test_candidate*.py'
+          python3 scripts/build-candidate.py --core-dir build/core-candidate \
+            --scenarios-commit "$SCENARIOS_COMMIT" --output-dir build/candidate
+      - name: Install disposable WordPress floor
+        run: |
+          wp core download --path=build/wordpress --version=7.0
+          test "$(wp core version --path=build/wordpress)" = '7.0'
+          wp config create --path=build/wordpress --dbname=wordpress_test --dbuser=root --dbpass=root --dbhost=127.0.0.1:3306
+          wp config set WP_ENVIRONMENT_TYPE local --path=build/wordpress
+          wp config set RAN_BOOSTER_SCENARIOS_DISPOSABLE true --raw --path=build/wordpress
+          wp config set RAN_BOOSTER_SELF_UPDATE_MODE disabled --path=build/wordpress
+          wp core install --path=build/wordpress --url=http://localhost --title='Disposable candidate pairing' --admin_user=admin --admin_password=admin --admin_email=admin@example.com --skip-email
+      - name: Install and read back the fixed pair, then execute installed proofs
+        run: |
+          python3 scripts/candidate-proof.py --wordpress build/wordpress --artifacts build/candidate
+      - name: Record review handover
+        run: |
+          cat build/candidate/HANDOVER.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        id: review_pair
+        with:
+          name: candidate-pair-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/candidate/*
+          retention-days: 30
+          if-no-files-found: error
+      - name: Record uploaded pair custody
+        env:
+          PAIR_ARTIFACT_ID: ${{ steps.review_pair.outputs.artifact-id }}
+          PAIR_ARTIFACT_DIGEST: ${{ steps.review_pair.outputs.artifact-digest }}
+          PAIR_ARTIFACT_URL: ${{ steps.review_pair.outputs.artifact-url }}
+          PAIR_RUN: ${{ github.run_id }}
+          PAIR_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python3 - <<'PY'
+          import os
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write('\nScenarios pairing commit: ' + os.environ['SCENARIOS_COMMIT'] + '; run ' + os.environ['PAIR_RUN'] + ', attempt ' + os.environ['PAIR_ATTEMPT'] + '.\n')
+              summary.write('Pair artifact: ' + os.environ['PAIR_ARTIFACT_ID'] + '; SHA-256 ' + os.environ['PAIR_ARTIFACT_DIGEST'] + '; ' + os.environ['PAIR_ARTIFACT_URL'] + '\n')
+              summary.write('Retain this external custody record alongside HANDOVER.md; a container cannot include its own digest.\n')
+          PY
