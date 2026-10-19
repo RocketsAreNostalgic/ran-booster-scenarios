@@ -10,7 +10,7 @@
 	"packageManager": "pnpm@11.13.1",
 	"prettier": "@rocketsarenostalgic/quality-config/prettier",
 	"name": "ran-booster-scenarios",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"private": true,
 	"license": "GPL-2.0-only",
 	"scripts": {
