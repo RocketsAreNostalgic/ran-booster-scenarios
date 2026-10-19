@@ -1,12 +1,14 @@
 # Explicit runtime files; development tools and dependencies never ship.
 ran-booster-scenarios.php
 catalog.php
+pairing.php
 compatibility.json
 README.md
 CONTRIBUTING.md
 RELEASE.md
 docs/baseline.md
 docs/scenarios.md
+docs/candidate-acceptance.md
 readme.txt
 LICENSE
 samples/scenario-plugin

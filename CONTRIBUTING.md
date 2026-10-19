@@ -19,3 +19,10 @@ Keep changes focused, use Conventional Commits and record exact check evidence.
 Release Please owns generated version/changelog changes. A Core update must
 change compatibility.json, qualify the new exact release and pass scenario
 review; it must not silently widen the runtime guard. See RELEASE.md.
+
+For unreleased acceptance, use [the candidate workflow](docs/candidate-acceptance.md).
+It writes fixed pairing metadata only in build output, reuses the approved Core
+ZIP, and qualifies installed PHP8.5 behavior. Candidate APIs must match the
+reviewed source's required API tuple. Changing either candidate requires a new
+pair; source Quality and independent review remain required. This does not
+authorize new scenario implementation or publication. Never add a runtime bypass.
