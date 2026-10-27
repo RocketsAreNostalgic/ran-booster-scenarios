@@ -139,6 +139,16 @@ function add_action( string $hook, callable $callback ): bool { // phpcs:ignore 
 }
 
 /**
+ * Check whether an action has a registered callback.
+ *
+ * @param string $hook Hook name.
+ * @return bool Whether the hook has a callback.
+ */
+function has_action( string $hook ): bool { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Preserve the WordPress function identity.
+	return isset( $GLOBALS['ran_booster_scenario_hooks'][ $hook ] );
+}
+
+/**
  * Current user can.
  *
  * @param string $capability Controlled test input.

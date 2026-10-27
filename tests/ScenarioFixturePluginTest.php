@@ -533,21 +533,36 @@ final class ScenarioFixturePluginTest extends TestCase {
 	public function test_missing_connected_capability_refuses_selection_and_http(): void {
 		$this->enable();
 		$this->select( 'immutable' );
-		self::assertNotSame( '', ran_booster_scenarios_journey_guard( 'blueprint-partial' ) );
-		$this->submit(
-			array(
-				'operation' => 'select',
-				'scenario'  => 'blueprint-partial',
-				'target'    => 'both',
-			)
-		);
-		self::assertSame( 'immutable', ran_booster_scenarios_state()['scenario'] );
-		$this->select( 'blueprint-partial' );
-		$this->assert_blocked( $this->request() );
-		$this->submit( array( 'operation' => 'advance' ) );
-		self::assertSame( 0, ran_booster_scenarios_state()['stage'] );
-		$this->submit( array( 'operation' => 'reset' ) );
-		self::assertSame( '', ran_booster_scenarios_state()['scenario'] );
+		// This test runs in its own process: remove the real Core autoloader to model an absent capability.
+		$GLOBALS['ran_booster_scenarios_loader']->unregister();
+		try {
+			self::assertFalse( class_exists( 'RAN\\Portability\\PackageBlueprint' ) );
+			self::assertNotSame( '', ran_booster_scenarios_journey_guard( 'blueprint-partial' ) );
+			$this->submit(
+				array(
+					'operation' => 'select',
+					'scenario'  => 'blueprint-partial',
+					'target'    => 'both',
+				)
+			);
+			self::assertSame( 'immutable', ran_booster_scenarios_state()['scenario'] );
+			$this->select( 'blueprint-partial' );
+			$this->assert_blocked( $this->request() );
+			$this->submit( array( 'operation' => 'advance' ) );
+			self::assertSame( 0, ran_booster_scenarios_state()['stage'] );
+			$this->submit( array( 'operation' => 'reset' ) );
+			self::assertSame( '', ran_booster_scenarios_state()['scenario'] );
+		} finally {
+			$GLOBALS['ran_booster_scenarios_loader']->register();
+		}
+	}
+
+	/** Verify Migrator requires its action even when the real Core interface exists. */
+	public function test_migrator_journey_requires_registered_action(): void {
+		self::assertTrue( interface_exists( 'RAN\\Admin\\Interaction\\TransporterRowAdminInteractionFacade' ) );
+		self::assertNotSame( '', ran_booster_scenarios_journey_guard( 'migrator-eligibility' ) );
+		add_action( 'admin_post_ran_booster_wp_pusher_migrator_package', static function (): void {} );
+		self::assertSame( '', ran_booster_scenarios_journey_guard( 'migrator-eligibility' ) );
 	}
 
 	/** Verify unavailable walkthroughs remain readable without actionable links or writes. */
@@ -556,8 +571,12 @@ final class ScenarioFixturePluginTest extends TestCase {
 		$this->select( 'immutable' );
 		$before = $GLOBALS['ran_booster_scenario_options'];
 		ob_start();
-		ran_booster_scenarios_render_journeys( 'Exact pairing unavailable' );
-		$html = ob_get_clean();
+		try {
+			ran_booster_scenarios_render_journeys( 'Exact pairing unavailable' );
+			$html = ob_get_contents();
+		} finally {
+			ob_end_clean();
+		}
 		self::assertIsString( $html );
 		self::assertStringContainsString( 'BP-01', $html );
 		self::assertStringContainsString( 'MIG-02', $html );
