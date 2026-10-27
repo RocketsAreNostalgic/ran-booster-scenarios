@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.3](https://github.com/RocketsAreNostalgic/ran-booster-scenarios/compare/v0.1.2...v0.1.3) (2026-10-27)
+
+
+### Bug Fixes
+
+* **core:** support Core 1.0.0-beta.39 ([79b3405](https://github.com/RocketsAreNostalgic/ran-booster-scenarios/commit/79b3405f175be54d33b95c478fc3dee17d92bf71))
+* **core:** support Core 1.0.0-beta.39 ([a89b4c4](https://github.com/RocketsAreNostalgic/ran-booster-scenarios/commit/a89b4c4d3c48a1b1a82074e24009b85558492d02))
+
 ## [0.1.2](https://github.com/RocketsAreNostalgic/ran-booster-scenarios/compare/v0.1.1...v0.1.2) (2026-10-19)
 
 

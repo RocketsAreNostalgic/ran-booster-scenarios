@@ -7,7 +7,7 @@ Requires PHP: 8.4
 License: GPL-2.0-only
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 x-release-please-start-version
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 x-release-please-end
 
 Repeatable release, history and guidance scenarios for disposable Booster installations.
