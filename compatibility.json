@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "fixture_version": "0.1.2",
-  "core_version": "1.0.0-beta.39",
-  "core_commit": "2adede228e1d0be3559ca74e8e2665bbf65d8e1f",
-  "core_zip_sha256": "13fd72cc785bed3d888d258b9ad3e1ef771acfece35fb424d69ee04d9a4c56ef",
+  "core_version": "1.0.0-beta.48",
+  "core_commit": "5d0bd59a1751feff582aa8e744f9ba5d49597288",
+  "core_zip_sha256": "37d0a170ad272d81b4420a3f80dad38298c0fea657f3a7fbc3af39cc51a9b175",
   "provider_api": 15,
   "addon_api": 17,
   "admin_interaction_api": 3
